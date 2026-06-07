@@ -1,0 +1,502 @@
+/* ===== Reset / base ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+/* nagłówki nie noszą domyślnych rozmiarów/wag przeglądarki — typografią steruje klasa t-* lub reguła komponentu */
+h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+
+:root {
+  /* === Kolory (primitywy — nazwa mówi CZYM kolor jest, nie do czego służy) === */
+  --white:    #FFFFFF;
+  --black:    #000000;
+  --gray-300: #AEB3BD;   /* linie, dividery */
+  --gray-500: #8B9298;   /* przygaszony tekst: opisy, role, rok */
+  --lime:     #BEE900;   /* kulka przy chipsach */
+  /* Kolory klienckie (case study, np. tła kafelków #FF4B36 / #EEF3F1) NIE są tokenami —
+     żyją jako dane w src/data/work.js. To nie nasz system, tylko marka klienta. */
+
+  /* === Skala odstępów (ósemkowa). Używaj var(--space-N), nie wpisuj px ręcznie === */
+  --space-8:   8px;
+  --space-12:  12px;
+  --space-16:  16px;
+  --space-24:  24px;
+  --space-32:  32px;
+  --space-40:  40px;
+  --space-48:  48px;
+  --space-64:  64px;
+  --space-80:  80px;
+  --space-96:  96px;
+  --space-120: 120px;
+  --space-200: 200px;
+
+  /* === Layout === */
+  --max:   1440px;
+  --pad:   var(--space-32);   /* margines boczny strony (mobile 16px) */
+  --nav-h: 76px;              /* wysokość sticky nav (do wzoru wysokości strefy hero) */
+
+  /* miękki, trójwarstwowy cień unoszącego się screenu (zmierzony) */
+  --shot-shadow:
+    0 0.6px 1.57px -1.5px rgba(0,0,0,0.17),
+    0 2.29px 5.95px -3px  rgba(0,0,0,0.14),
+    0 10px 26px -4.5px    rgba(0,0,0,0.02);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 500;
+  background: var(--white);
+  color: var(--black);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration: none; }
+.muted { color: var(--gray-500); }
+
+/* ===== STYLE TEKSTOWE (odpowiednik stylów tekstowych z Figmy) =====
+   JEDNO ŹRÓDŁO PRAWDY dla rozmiaru / interlinii / trackingu / wagi.
+   W markupie nadawaj klasę (np. class="exp-years t-display-40"), NIE wpisuj liczb ręcznie.
+   Rozmiary mobilne zaszyte w samej klasie (na dole pliku, @media max-width:800px).
+   Tracking (DESIGN.md): duże fonty -0.03em, tekst 20px -0.02em.
+   Legacy poza tym systemem (świadomie ciaśniejsze, patrz DESIGN.md): hero h1, .send, stopka .contact h2 / .email. */
+.t-display-55 { font-size: 55px; line-height: 60px; letter-spacing: -0.03em; font-weight: 500; }
+.t-display-40 { font-size: 40px; line-height: 44px; letter-spacing: -0.03em; font-weight: 500; }
+.t-body-20    { font-size: 20px; line-height: 28px; letter-spacing: -0.02em; font-weight: 500; }
+.t-note-16    { font-size: 16px; line-height: 22px; letter-spacing: -0.02em; font-weight: 500; }
+/* śródtytuł / eyebrow: tekst 20px WERSALIKAMI. Osobny styl, bo to inna rola niż zwykły tekst 20px. */
+.t-eyebrow    { font-size: 20px; line-height: 28px; letter-spacing: -0.02em; font-weight: 500; text-transform: uppercase; }
+
+.wrap {
+  width: 100%;
+  padding: 0 var(--pad);   /* treść na pełną szerokość okna, marginesy 32px, jak we Framerze */
+}
+
+/* strefa hero, linia "Selected work" startuje ~85vh (minus wysokość sticky nav) */
+.topzone {
+  min-height: calc(85vh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Nav (sticky, zawsze widoczny, bez tła) ===== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-24) 0;
+  /* typografia: klasa t-body-20 (w markupie) */
+}
+.brand { white-space: nowrap; }
+.nav-links { display: flex; gap: 6px; white-space: nowrap; }
+
+/* hamburger (tylko mobile) */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 34px;
+  height: 22px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.menu-toggle span {
+  display: block; width: 34px; height: 2.5px; background: var(--black);
+  transition: transform .4s cubic-bezier(.16, 1, .3, 1);   /* płynne skrzyżowanie w X */
+}
+/* dwie linie krzyżują się w X po otwarciu menu (środek do środka = 8.5px, połowa = 4.25px) */
+.menu-toggle.open span:nth-child(1) { transform: translateY(4.25px) rotate(45deg); }
+.menu-toggle.open span:nth-child(2) { transform: translateY(-4.25px) rotate(-45deg); }
+/* gdy menu otwarte, nav (z hamburgerem-X i logo) jest nad overlayem */
+body.menu-open .nav { z-index: 300; }
+
+/* pełnoekranowe menu mobilne */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--white);
+  padding: var(--space-24) var(--space-16) var(--space-40);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease;
+}
+.menu-overlay.open { opacity: 1; visibility: visible; }
+.menu-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;                       /* ciaśniej między Work / About / Contact */
+}
+.menu-links a {
+  font-size: clamp(44px, 15vw, 72px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;            /* ciaśniejsza interlinia między linkami */
+}
+/* mask reveal linków menu (jak headline): słowo wyjeżdża od dołu spod maski */
+.menu-links a .ml-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;     /* miejsce na zejścia liter (g, y) */
+  margin-bottom: -0.12em;     /* kompensacja, layout bez zmian */
+}
+.menu-links a .ml-word {
+  display: block;
+  transform: translateY(110%);   /* start: schowane pod maską (JS animuje do 0) */
+  will-change: transform;
+}
+.menu-socials { display: flex; gap: var(--space-8); font-size: 20px; font-weight: 500; }
+
+/* ===== Hero ===== */
+.hero {
+  flex: 1;                       /* wypełnia resztę strefy 80vh */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4vw;
+  padding: var(--space-24) 0 var(--space-48);
+}
+/* pojedynczy prosty obrazek (portret 3:4), skaluje się z oknem jak headline.
+   Cykliczna wymiana projektów = dorobimy w fazie animacji. */
+.hero-media {
+  position: relative;
+  flex: 0 0 auto;
+  width: 24vw;                    /* płynne, jak w oryginale (lekko powiększone) */
+  min-width: 240px;
+  max-width: 500px;
+  aspect-ratio: 3 / 4;            /* prosto, portret jak oryginał */
+  overflow: hidden;
+  border-radius: 4px;
+  /* maska odkrywająca: obraz stoi, JS rozsuwa clip od dołu do góry (opening) */
+  clip-path: inset(100% 0 0 0 round 4px);
+}
+/* stos 4 zdjęć; subtelny ruch w górę pod maską dla płynności (JS: translateY 10% -> 0) */
+.hero-stack {
+  position: absolute;
+  inset: 0;
+  transform: translateY(10%);
+  will-change: transform;
+}
+/* 4 obrazki ułożone jeden na drugim, crossfade w pętli (JS/Motion). Tylko pierwszy widoczny na start. */
+.hero-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  opacity: 0;
+  will-change: opacity;
+}
+.hero-shot:first-child { opacity: 1; }   /* start na pierwszym */
+
+.hero-text { flex: 0 0 60%; }            /* kolumna headline, łamie się na 4 linie (Geist z Google szerszy) */
+.hero-text h1 {
+  font-weight: 500;
+  font-size: 4.78vw;                       /* płynne: skaluje się z oknem (68.8px @1440) */
+  line-height: 1.0;                        /* zmierzone: interlinia 1.0 */
+  letter-spacing: -0.035em;                /* skaluje się z fontem (~ -2.4px @69px) */
+}
+/* mask reveal headline: każde słowo w masce, wewnętrzny span wyjeżdża od dołu (jak rejouice) */
+.hero-text h1 .mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.12em;                  /* miejsce na zejścia liter (g, y, p) */
+  margin-bottom: -0.12em;                  /* kompensacja: layout bez zmian */
+}
+.hero-text h1 .word {
+  display: inline-block;
+  transform: translateY(115%);             /* start: schowane pod maską (JS animuje do 0) */
+  will-change: transform;
+}
+/* wyróżnienie w nagłówku: szary fragment (case study = czarna nazwa + szary opis) */
+.hero-text h1 .word--mute { color: var(--gray-300); }
+.send {
+  display: inline-block;
+  margin-top: var(--space-40);
+  font-size: 40px;                        /* zmierzone: H2 */
+  line-height: 44px;
+  font-weight: 500;
+  opacity: 0;                             /* start: niewidoczne, JS wprowadza na końcu sekwencji */
+  letter-spacing: -0.035em;               /* spójny tracking dużych fontów (skaluje się na mobile) */
+  padding-bottom: 4px;                    /* podkreślenie robią pseudo ::before/::after (standard linków) */
+}
+
+/* ===== Section head ===== */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-24) 0;
+  border-top: 1px solid var(--gray-300);
+  /* typografia: klasa t-body-20 (w markupie) */
+}
+.section-head h2,
+.section-head span {
+  color: var(--black);
+  white-space: nowrap;
+}
+
+/* ===== Sekcja tekstowa (komponent Section.astro) =====
+   Grid z Figmy: szyna etykiety (lewa) + kolumna treści (prawa). Wspólna dla About i case studies.
+   Warianty przez modyfikatory: --line (linia na górze), --last (bez dolnego odstępu). */
+.section {
+  display: grid;
+  grid-template-columns: 40% 51.64% 8.36%;   /* szyna 40% | treść 6/12 | prawy margines ~147px */
+  align-items: start;
+  padding: var(--space-40) 0 var(--space-200);   /* góra → etykieta 40px; między sekcjami 200px */
+}
+.section--line { border-top: 1px solid var(--gray-300); }
+.section--last { padding-bottom: 0; }
+/* sekcje bez linii (case study) jadące po sobie: zdejmij górny padding 40, żeby przerwa = 200
+   (sam dolny padding poprzedniej), nie 240. Pierwsza sekcja (po hero) zachowuje górny padding. */
+.section:not(.section--line) + .section:not(.section--line) { padding-top: 0; }
+/* śródtytuł w szynie: WERSALIKI (styl t-eyebrow w markupie) + kulka wielkości fontu */
+.section-label {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--black);
+}
+.section-label::before {
+  content: "";
+  width: 1em; height: 1em;        /* średnica = wysokość fontu (20px) */
+  border-radius: 50%;
+  background: var(--black);
+  flex: 0 0 auto;
+}
+/* kolumna treści: 6/12, lewa krawędź = lewa krawędź headline hero */
+.section-body { grid-column: 2; }
+
+/* figura sekcji (case study): pełna szerokość pod tekstem, 48px od tekstu.
+   Bezpośrednie <img> = pełna szerokość + radius; wiele = 16px między nimi.
+   Złożone figury (np. .case-band) stylowane osobno (nie łapie ich .section-fig > img). */
+.section-fig { grid-column: 1 / -1; margin-top: var(--space-48); }
+.section-fig--lg { margin-top: var(--space-200); }   /* duży odstęp tekst→figura (Introduction) */
+.section-fig > img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.section-fig > img + img { margin-top: var(--space-16); }
+/* obrazek sklejony z poprzednim (0px). Konwencja nazw: nr_litera_numer (np. 04_a_1/2/3) = jeden ciąg bez przerwy */
+.section-fig > img.fig-join { margin-top: 0; }
+/* sklejone obrazki = jeden blok: zewnętrzne rogi zaokrąglone, wewnętrzne (na styku) proste */
+.section-fig > img.fig-join { border-top-left-radius: 0; border-top-right-radius: 0; }            /* górne rogi sklejonego — proste */
+.section-fig > img:has(+ img.fig-join) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }  /* dolne rogi tego nad sklejonym — proste */
+
+/* ===== Work grid ===== */
+/* scroll-margin: kotwica #work ląduje POD sticky headerem (wysokość nawigacji + luz), nie pod nim */
+.work { padding-bottom: var(--space-40); scroll-margin-top: var(--nav-h); }
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-64) var(--space-16);   /* row 64, column 16 */
+  margin-top: 0;                          /* odstęp do siatki = 24px nagłówka, równy linia→tytuł */
+}
+.tile { display: block; min-width: 0; }   /* min-width:0 chroni grid przed rozpychaniem */
+.tile-wide { grid-column: 1 / -1; }
+
+.tile-media {
+  position: relative;
+  aspect-ratio: var(--ar, 1 / 0.86);   /* domyślnie prostokąt; per kafel nadpisywane przez --ar */
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;                /* centrowanie obiektu flexem, nie transformem */
+  align-items: center;          /* (transform zostaje wolny dla Motion = scale na scroll) */
+  justify-content: center;
+}
+.tile-wide .tile-media { aspect-ratio: 2 / 0.92; }
+
+/* czarna apla między tłem a obiektem (wyjątek per kafel, sterowana przez --overlay) */
+.tile-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, var(--overlay, 0));
+  pointer-events: none;
+}
+
+/* obiekt na wierzchu: 100% szerokości kafelka, wysokość proporcjonalna, wyśrodkowany w pionie
+   (model Framera: tło i obiekt oba na 100% szerokości, skalują się z kafelkiem) */
+.shot {
+  position: relative;               /* w flow flexa = wyśrodkowany; relative dla z-index */
+  width: var(--shot-w, 100%);       /* domyślnie 100%; per kafel nadpisywane przez --shot-w */
+  height: auto;
+  z-index: 2;                       /* obiekt nad aplą */
+  will-change: transform;           /* scale sterowany przez Motion na scroll */
+}
+
+/* kółko przyklejone do kursora (See Case / View on Behance / Soon...) — tylko desktop, JS je tworzy.
+   Pojawia się/znika samym opacity (bez ruchu z boku). Zastępuje kursor na obrazku kafelka. */
+.cursor-badge-on .tile-media { cursor: none; }   /* na obrazku chowamy systemowy kursor, kółko go zastępuje */
+
+.cursor-badge {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: 144px;
+  height: 144px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid rgba(0, 0, 0, 0.08);   /* czarny stroke 8% */
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;             /* nie blokuje klików w kafelek */
+  opacity: 0;                       /* pokazywanie/chowanie steruje Motion (spring) */
+  will-change: transform, opacity;
+}
+.cursor-badge span {
+  display: block;
+  max-width: 100px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+/* podpis */
+.caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: var(--space-16);
+  /* typografia: klasa t-body-20 (w markupie) */
+}
+.cap-main { display: flex; flex-direction: column; }
+.cap-title { color: var(--black); }
+.cap-desc { color: var(--black); }        /* czarny opis */
+.cap-role { color: var(--gray-500); }     /* tylko rola jasnoszara */
+.cap-year { color: var(--black); white-space: nowrap; padding-left: var(--space-16); }
+
+/* ===== Footer ===== */
+.footer { padding: var(--space-120) 0 var(--space-40); }
+.contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+  border-top: 1px solid var(--gray-300);
+  padding-top: var(--space-40);
+}
+.contact h2 { font-size: 55px; line-height: 60px; font-weight: 500; letter-spacing: -1.9px; }
+.email {
+  font-size: 55px;
+  line-height: 60px;
+  font-weight: 500;
+  letter-spacing: -1.9px;
+}
+.foot-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-200);           /* odstęp Contact → socials jak w oryginale */
+  /* typografia: klasa t-body-20 (w markupie) */
+}
+.socials { display: flex; gap: 6px; }
+.foot-bottom .muted { color: var(--black); }   /* Copyright czarny */
+
+/* ===== Standard hover linków: linia lewo→prawo (jak rejouice, easing .16,1,.3,1) ===== */
+/* a) linki bez podkreślenia — linia rośnie od lewej na hover, znika w prawo */
+/* uwaga: .brand (Arek Sobczyk) celowo POMINIĘTY — to logo, nie podkreśla się na hover.
+   .email ma własny wariant (podkreślony, niżej) jak Send me a message */
+.nav-links a, .socials a,
+.menu-links a, .menu-socials a { position: relative; display: inline-block; }
+.nav-links a::after, .socials a::after,
+.menu-links a::after, .menu-socials a::after {
+  content: ""; position: absolute; left: 0; bottom: -0.09em;
+  width: 100%; height: 1.5px; background: currentColor;
+  transform: scaleX(0); transform-origin: right;
+  transition: transform .55s cubic-bezier(.16, 1, .3, 1);
+}
+.nav-links a:hover::after, .socials a:hover::after,
+.menu-links a:hover::after, .menu-socials a:hover::after {
+  transform: scaleX(1); transform-origin: left;
+}
+
+/* b) link z podkreśleniem (Send me a message) — sweep lewo→prawo na wejściu, reverse prawo→lewo na zjeździe
+   (mechanizm 1:1 z rejouice: origin stały, delay na ::before) */
+.send, .email { position: relative; display: inline-block; padding-bottom: 4px; }
+.send::before, .send::after,
+.email::before, .email::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 2px; background: var(--black);
+  transition: transform .7s cubic-bezier(.16, 1, .3, 1);   /* odrobinę łagodniej niż rejouice (0.6s) */
+}
+.send::before, .email::before { transform: scaleX(1); transform-origin: 100% 50%; transition-delay: .15s; }  /* spoczynek: pełne podkreślenie (kotwica z prawej); na ZJEŹDZIE filler z opóźnieniem */
+.send::after, .email::after   { transform: scaleX(0); transform-origin: 0 50%; transition-delay: 0s; }        /* spoczynek: schowane (kotwica z lewej); na ZJEŹDZIE eraseuje pierwsze */
+.send:hover::before, .email:hover::before { transform: scaleX(0); transition-delay: 0s; }    /* WEJŚCIE: stara linia eraseuje pierwsza */
+.send:hover::after,  .email:hover::after  { transform: scaleX(1); transition-delay: .15s; }  /* WEJŚCIE: nowa linia wchodzi z opóźnieniem */
+
+/* ===== Scroll reveal ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+.reveal.in { opacity: 1; transform: none; }
+
+/* ===== Responsive ===== */
+@media (max-width: 800px) {
+  /* style tekstowe — rozmiary mobilne (t-body-20, t-note-16, t-eyebrow bez zmian) */
+  .t-display-55 { font-size: 36px; line-height: 40px; }
+  .t-display-40 { font-size: 28px; line-height: 32px; }
+
+  /* sekcja tekstowa: jedna kolumna, etykieta nad treścią */
+  .section { grid-template-columns: 1fr; gap: var(--space-16); padding: 20px 0 var(--space-96); }
+  .section--last { gap: var(--space-80); padding-bottom: 0; }   /* np. Education: etykieta → tytuł 80px */
+  .section-body { grid-column: 1; width: 100%; }
+  .case-cover + .section { padding-top: var(--space-32); }     /* mobile: obrazek hero → ●Introduction = 32px (jak meta→obrazek) */
+  .section-fig { margin-top: var(--space-32); }                /* mobile: tekst → obrazek 32px */
+  .section-fig--lg { margin-top: var(--space-96); }            /* Introduction: większy odstęp na mobile */
+  .section-fig > img + img { margin-top: var(--space-8); }     /* mobile: przerwa między obrazkami 8px */
+
+  .wrap { padding: 0 var(--space-16); }    /* węższe marginesy boczne na mobile */
+  .caption { line-height: 24px; }          /* ciaśniejsza interlinia podpisów na mobile (wyjątek od t-body-20) */
+  .topzone { min-height: auto; }          /* na mobile nie wymuszamy 80vh */
+  /* nawigacja: brand + hamburger, bez linków tekstowych */
+  .nav-links { display: none; }
+  .menu-toggle { display: flex; }
+  /* hero: nagłówek na górze, miniatura pod spodem (jak w oryginale mobile) */
+  .hero {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: var(--space-64);                 /* większy odstęp Send → obrazek */
+    padding: 0 0 var(--space-24);         /* headline jeszcze wyżej; mniejszy odstęp obrazek → linia */
+  }
+  .hero-media { width: 50%; min-width: 0; max-width: 240px; height: auto; margin-left: auto; }  /* miniatura mniejsza, na połowę strony, po prawej */
+  .hero-text { flex: 1 1 auto; }
+  .hero-text h1 { font-size: 7.6vw; letter-spacing: -0.03em; }   /* mobile headline (HP i About równo); najdłuższa linia HP "apps, and digital products" mieści się */
+  .send { font-size: 28px; line-height: 32px; margin-top: var(--space-24); }   /* 40 → 28 (spójnie z dużymi fontami) */
+  .grid { grid-template-columns: 1fr; gap: var(--space-80); }   /* więcej światła między kafelkami na mobile */
+  .tile-wide { grid-column: auto; }
+  .tile-media, .tile-wide .tile-media { aspect-ratio: 1 / 1; }   /* wszystkie kafelki w kwadracie na mobile */
+  .tile-wide .shot { width: 120%; }        /* Apaczka: obiekt powiększony na mobile */
+  .footer { padding-top: var(--space-48); }           /* mniejszy odstęp ostatni kafelek → footer */
+  .contact { padding-top: var(--space-24); gap: var(--space-8); }   /* mniejszy odstęp linia → "Get in touch" + ciaśniej tytuł ↔ email */
+  .contact h2, .email { font-size: 28px; line-height: 32px; letter-spacing: -0.5px; }  /* rozluźnione (z -1.9px) — było ściśnięte */
+  .foot-bottom { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: var(--space-96); }  /* 2x większy odstęp mail → social media */
+  /* na mobile bez animacji pojawiania "Selected work" — widoczne od razu */
+  .section-head.reveal { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

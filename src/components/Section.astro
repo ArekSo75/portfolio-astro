@@ -1,0 +1,36 @@
+---
+// Sekcja tekstowa: grid (szyna etykiety + kolumna treści). Wspólna dla About i case studies.
+// Style: global.css (.section / .section-label / .section-body + modyfikatory).
+//
+// Props:
+//   label       — tekst śródtytułu w szynie (WERSALIKI robi CSS), np. "About" / "INTRODUCTION"
+//   line  (true)— linia na górze sekcji. About: true. Case study: zwykle false.
+//   last (false)— ostatnia sekcja: bez dolnego odstępu 200px (np. przed rzędem obrazków)
+//   reveal(true)— animacja pojawiania na scroll. false = elementy statyczne (np. case study Ani Kruk)
+//   figLg(false)— duży odstęp tekst→figura (200 desktop / 96 mobile) zamiast domyślnych 48 (np. Introduction)
+// Treść sekcji wchodzi przez <slot/> (kolory/typografię nadaje treść klasami t-* i .muted).
+//
+// Opcjonalny slot "fig" (case study): obrazek/-ki na PEŁNĄ szerokość pod tekstem sekcji.
+// Tekst sekcji opisuje obrazek poniżej. 48px pod tekstem; przerwa do następnej sekcji
+// = dolny padding sekcji (200). Wiele obrazków = 16px między nimi. Style: global.css (.section-fig).
+const { label, line = true, last = false, reveal = true, figLg = false } = Astro.props;
+const cls = ['section'];
+if (line) cls.push('section--line');
+if (last) cls.push('section--last');
+const hasFig = Astro.slots.has('fig');
+const rv = reveal ? ' reveal' : '';
+const figCls = ['section-fig'];
+if (reveal) figCls.push('reveal');
+if (figLg) figCls.push('section-fig--lg');
+---
+<section class={cls.join(' ')}>
+  <div class={`section-label t-eyebrow${rv}`}>{label}</div>
+  <div class="section-body">
+    <slot />
+  </div>
+  {hasFig && (
+    <div class={figCls.join(' ')}>
+      <slot name="fig" />
+    </div>
+  )}
+</section>

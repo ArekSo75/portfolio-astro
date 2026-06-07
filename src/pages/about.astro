@@ -1,0 +1,318 @@
+---
+// Podstrona About. Hero identyczny jak HP (ten sam markup + animacje z main.js),
+// różnice: jedno zdjęcie zamiast slideshow + dwa linki (mail + kotwica do #about).
+//
+// Sekcje poniżej hero używają GRIDU z Figmy (node 1-5759): pełnej szerokości linia u góry,
+// pod nią mała etykieta w lewej szynie + treść w prawej kolumnie. Prawa kolumna to ten sam
+// blok 60% co .hero-text, więc jej lewa krawędź pokrywa się z lewą krawędzią headline hero.
+// Tekst sekcji 1:1 z żywego serwisu na Framerze (NIE z Figmy — w Figmie treść jest placeholderowa).
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+
+const experience = [
+  { co: 'Move Closer', role: 'Senior UI/UX Designer',                years: '2022–present', desc: 'Designing e‑commerce solutions and complex applications in an agile environment.' },
+  { co: 'MillionPugs', role: 'Senior User Interface Designer',       years: '2021–2022',    desc: 'Helping shape the user experience of an early-stage, fast-growing product.' },
+  { co: 'K2 internet', role: 'Senior Digital Designer, Art Director', years: '2006–2020',    desc: 'Leading design and art direction on key projects for top-tier global and local clients.' },
+  { co: 'Freelance',   role: 'Graphic Designer, Web Designer',        years: '2004–2006',    desc: 'Building a strong foundation in visual communication and web technologies.' },
+];
+
+const skills = [
+  'UI design', 'UX design', 'product design', 'prototyping', 'wireframes',
+  'design system', 'interactions', 'art directing', 'research', 'no-code',
+  'framer', 'AI-assisted design',
+];
+
+const industries = [
+  'banking', 'e-commerce', 'insurance', 'fintech', 'telecom', 'retail',
+  'culture', 'education', 'healthcare', 'energy', 'government', 'FMCG',
+  'jewelry', 'fashion', 'AI',
+];
+
+const education = [
+  { title: 'SWPS University', sub: 'MA in Psychology', note: 'Specialization in Market & Advertising Psychology', year: '2003' },
+];
+
+const courses = [
+  { title: 'AI Skills for Tomorrow – Google & SGH', year: '2025' },
+  { title: 'Framer',           year: '2025' },
+  { title: 'Digital Designer', noteSm: 'Distinction Certificate', noteSm2: 'Awarded to only 5 participants out of several hundred', year: '2024' },
+  { title: 'Webflow Designer', year: '2024' },
+  { title: 'Brand Designer',   year: '2024' },
+];
+---
+
+<Layout
+  title="About – Arek Sobczyk"
+  description="Senior UX/UI Designer with 18+ years of experience. 13 years at K2 Internet, now designing e-commerce and custom software at Move Closer."
+>
+  <!-- TOP ZONE: hero ~85vh, identyczny układ jak HP -->
+  <div class="topzone">
+    <section class="hero">
+      <div class="hero-media">
+        <div class="hero-stack">
+          <img class="hero-shot" src="/assets/site/about/arek.webp" alt="Arek Sobczyk" />
+        </div>
+      </div>
+      <div class="hero-text">
+        <h1>I’m a UX/UI designer turning complex challenges into simple, human-centered digital products.</h1>
+        <div class="hero-actions">
+          <a href="mailto:arek.so@icloud.com" class="send">Send me a message</a>
+          <a href="#about" class="send">Learn more about me</a>
+        </div>
+      </div>
+    </section>
+  </div><!-- /topzone -->
+
+  <!-- RZĄD 3 OBRAZKÓW pod hero (te same co w slideshow hero): Ania Kruk, Namoi, Art Prints -->
+  <div class="hero-row">
+    <img src="/assets/site/hero/hero-1.webp" alt="Ania Kruk" />
+    <img src="/assets/site/hero/hero-3.webp" alt="Namoi" />
+    <img class="img-3" src="/assets/site/hero/hero-4.webp" alt="Art Prints" />
+  </div>
+
+  <!-- ABOUT / BIO -->
+  <Section label="About">
+    <span id="about"></span>
+    <p class="statement reveal t-body-20">I spent 13 years at the digital agency K2 Internet, working with brands such as Google, Coca-Cola, IKEA, PLAY, PKO Bank Polski, Pekao SA., and more.</p>
+    <p class="statement reveal t-body-20">Later, in a startup, I had the chance to work directly with the CEO and experience the fast-paced culture of building a product close to the business.</p>
+    <p class="statement reveal t-body-20">Currently, as a Senior UX/UI Designer at Move Closer, I design e‑commerce solutions and custom software, working closely with clients and developers.</p>
+  </Section>
+
+  <!-- EXPERIENCE -->
+  <Section label="Experience">
+      <h2 class="sec-title reveal t-display-55">Versatile experience focused on quality.</h2>
+      <ul class="exp-list">
+        {experience.map((e) => (
+          <li class="exp-row reveal">
+            <div class="exp-info">
+              <span class="exp-co t-body-20">{e.co}</span>
+              <span class="exp-role t-body-20">{e.role}</span>
+            </div>
+            <span class="exp-years t-display-40">{e.years}</span>
+            <p class="exp-desc t-body-20">{e.desc}</p>
+          </li>
+        ))}
+      </ul>
+  </Section>
+
+  <!-- SELECTED CLIENTS -->
+  <Section label="Selected clients">
+      <h2 class="sec-title reveal t-display-55">I had the pleasure of collaborating with many leading brands.</h2>
+      <img class="clients reveal" src="/assets/site/about/brands.webp" alt="Selected clients: Coca-Cola, Google, IKEA, Nokia, Nationale-Nederlanden, Toyota Financial Services, PKO Bank Polski, Bank Pekao, PLAY, Centrum Nauki Kopernik, Orlen, Shell, Ania Kruk, Leroy Merlin, MultiSport, Ministerstwo Zdrowia" />
+  </Section>
+
+  <!-- SKILLS -->
+  <Section label="Skills">
+      <h2 class="sec-title reveal t-display-55">Designing with purpose, from idea to launch.</h2>
+      <ul class="tags tags-lg reveal">
+        {skills.map((s) => <li class="t-display-40">{s}</li>)}
+      </ul>
+  </Section>
+
+  <!-- INDUSTRIES -->
+  <Section label="Industries">
+      <h2 class="sec-title reveal t-display-55">Years in agencies exposed me to diverse industries.</h2>
+      <ul class="tags reveal">
+        {industries.map((s) => <li class="t-body-20">{s}</li>)}
+      </ul>
+  </Section>
+
+  <!-- EDUCATION & COURSES -->
+  <Section label="Education &amp; Courses" last>
+      <h2 class="sec-title sec-title-tight reveal t-display-55">Education</h2>
+      <ul class="ec-list">
+        {education.map((e) => (
+          <li class="ec-row reveal t-body-20">
+            <div class="ec-left">
+              <span class="ec-title">{e.title}</span>
+              {e.sub && <span class="ec-sub">{e.sub}</span>}
+              {e.note && <span class="ec-note">{e.note}</span>}
+            </div>
+            <div class="ec-right">
+              <span class="ec-val">{e.year}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <h2 class="sec-title sec-title-2 sec-title-tight reveal t-display-55">Courses</h2>
+      <ul class="ec-list">
+        {courses.map((c) => (
+          <li class="ec-row reveal t-body-20">
+            <div class="ec-left">
+              <span class="ec-title">{c.title}</span>
+              {c.noteSm && <span class="ec-note ec-note-sm t-note-16">{c.noteSm}</span>}
+              {c.noteSm2 && <span class="ec-note ec-note-sm t-note-16">{c.noteSm2}</span>}
+            </div>
+            <div class="ec-right">
+              <span class="ec-val">{c.year}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+  </Section>
+
+  <!-- RZĄD 4 OBRAZKÓW nad stopką (te same projekty co pod hero) -->
+  <div class="foot-row">
+    <img class="fr-1" src="/assets/site/hero/hero-1.webp" alt="Ania Kruk" />
+    <img class="fr-2" src="/assets/site/hero/hero-2.webp" alt="3digits" />
+    <img class="fr-3" src="/assets/site/hero/hero-3.webp" alt="Namoi" />
+    <img class="fr-4" src="/assets/site/hero/hero-4.webp" alt="Home Gallery" />
+  </div>
+</Layout>
+
+<style>
+  /* ===== About: style specyficzne dla strony. Hero, reveal, standard linków, send — z global.css. ===== */
+
+  /* hero strefa na About wyższa niż HP: 94vh (desktop). HP zostaje 85vh (global.css). */
+  @media (min-width: 801px) {
+    .topzone { min-height: calc(94vh - var(--nav-h)); }
+  }
+
+  /* hero: dwa linki obok siebie (HP ma jeden). Margines bierze wrapper, nie pojedynczy link */
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-16) var(--space-40);
+    margin-top: var(--space-40);   /* 36 → 40 (na skali) */
+  }
+  .hero-actions :global(.send) { margin-top: 0; }
+
+  /* rząd 3 obrazków pod hero (te same projekty co slideshow hero) */
+  .hero-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-16);
+    padding-bottom: var(--space-48);
+  }
+  .hero-row img {
+    width: 100%;
+    height: auto;                /* naturalne proporcje obrazka, nic nie ucinamy */
+    border-radius: 6px;
+    display: block;
+  }
+
+  /* Grid sekcji, śródtytuł w szynie i kolumna treści = komponent Section.astro (style w global.css). */
+
+  /* bio 20px, tekst bazowy. Dwa akapity z odstępem */
+  .statement {                       /* typografia: t-body-20 */
+    color: var(--black);
+  }
+  .statement + .statement { margin-top: var(--space-24); }   /* odstęp między akapitami bio */
+  /* tytuł sekcji 55px (jak Contact na HP) */
+  .sec-title {                       /* typografia: t-display-55 */
+    color: var(--black);
+    margin-bottom: var(--space-80);             /* tytuł 55px → dolna część 80px */
+  }
+  /* tagi pod statementem */
+  .statement + .tags { margin-top: var(--space-40); }
+
+  /* ===== Experience: tytuł firmy + stanowisko po lewej, daty 40px w prawo, opis pod spodem ===== */
+  .exp-list { list-style: none; }
+  .exp-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    column-gap: var(--space-24);
+    padding: 28px 0;
+    border-top: 1px solid var(--gray-300);
+  }
+  .exp-info { display: flex; flex-direction: column; }
+  .exp-co   { color: var(--black); }                 /* typografia: t-body-20 */
+  .exp-role { color: var(--black); }                 /* stanowisko czarne; t-body-20 */
+  .exp-years {                       /* typografia: t-display-40 */
+    color: var(--black);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .exp-desc {                        /* typografia: t-body-20 */
+    grid-column: 1 / -1;
+    margin-top: 20px;
+    color: var(--gray-500);          /* opis szary */
+  }
+
+  /* listy Education / Courses: tytuł po lewej, wartość po prawej, opis szary
+     (w Education opis pod lewą kolumną, w Courses pod prawą) */
+  .ec-list { list-style: none; }
+  .ec-row {                          /* typografia: t-body-20 */
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: var(--space-24);
+    align-items: start;
+    padding: 20px 0;
+    border-top: 1px solid var(--gray-300);
+  }
+  .ec-left  { display: flex; flex-direction: column; }
+  .ec-right { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+  .ec-title { color: var(--black); }
+  .ec-sub   { color: var(--black); }                 /* podtytuł czarny (np. MA in Psychology) */
+  .ec-val   { color: var(--black); white-space: nowrap; }
+  .ec-note  { color: var(--gray-500); }                 /* opis szary */
+  /* .ec-note-sm — mała nota; typografia: t-note-16 */
+  /* Education & Courses — wyjątki odstępów */
+  .sec-title-tight { margin-bottom: var(--space-24); }   /* Education/Courses: tytuł → content 24px (zamiast 80px) */
+  /* Specialization... → Courses = 104px (84px margines + 20px dolny padding wiersza) */
+  .sec-title-2 { margin-top: 84px; }
+
+  /* tagi (Skills / Industries): wrapowane pigułki z kulką (var(--lime)) przed tekstem */
+  .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 12px; }
+  .tags li {                         /* Industries: typografia t-body-20 (w markupie) */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: 1px solid var(--gray-300);   /* stroke #AEB3BD */
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .tags li::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--lime);
+  }
+  /* Skills: większe chipsy (typografia t-display-40 w markupie), inny gap/padding niż Industries */
+  .tags-lg li { gap: 12px; padding: 10px 28px; }
+
+  /* logotypy klientów: obraz, max szerokość 800px */
+  .clients { display: block; width: 100%; max-width: 800px; height: auto; }
+
+  /* rząd 4 obrazków nad stopką (naturalne proporcje, jak pod hero) */
+  .foot-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-16);
+    padding-top: var(--space-200);
+  }
+  .foot-row img { width: 100%; height: auto; border-radius: 6px; display: block; }
+
+  /* ===== Mobile (spójnie z global.css max-width:800px) ===== */
+  @media (max-width: 800px) {
+    /* hero na mobile: zdjęcie NA GÓRZE, pod nim headline + linki (jak oryginał About we Framerze,
+       inaczej niż HP gdzie zdjęcie jest pod tekstem). Scoped tylko do About, HP nietknięte.
+       Zdjęcie odsuwa kafelki prac od strefy hero → nie zlewają się dwie strefy obrazków. */
+    .hero { flex-direction: column; gap: var(--space-32); padding: 0; }
+    .hero :global(.hero-media) { width: 50%; max-width: none; margin-left: auto; }   /* zdjęcie na połowę strony */
+    .statement + .tags { margin-top: var(--space-24); }
+    .tags li { padding: 6px 14px; }
+    /* Skills na mobile = chip jak Industries (20px). WYJĄTEK od t-display-40 (28px słabo się mieści) */
+    .tags-lg li { font-size: 20px; line-height: 28px; letter-spacing: -0.02em; gap: 8px; padding: 6px 14px; }
+    .cv-row { padding: 16px 0; }
+    /* rząd obrazków pod hero na mobile: 2 szt (Ania + Namoi), Art Prints odłączony */
+    .hero-row { grid-template-columns: 1fr 1fr; gap: var(--space-12); padding: var(--space-80) 0 var(--space-32); }   /* 2 kafelki odsunięte od linków o 80px */
+    .hero-row .img-3 { display: none; }
+    /* rząd nad stopką na mobile: 4 szt w siatce 2x2, odstęp góra-dół = lewo-prawo (12px) */
+    .foot-row { grid-template-columns: 1fr 1fr; gap: var(--space-12); padding-top: var(--space-96); }
+    /* Experience na mobile: mniejszy tytuł, ale odstęp tytuł → content jak desktop (80px) */
+    .sec-title { margin-bottom: var(--space-80); }   /* rozmiar 36px z t-display-55 (mobile); tu tylko odstęp */
+    .sec-title-2 { margin-top: 60px; }   /* +20px paddingu wiersza = 80px wizualnie "Specialization" → Courses */
+    .sec-title-tight { margin-bottom: var(--space-16); }   /* Education i Courses bliżej linii pod tytułem (24 → 16) */
+    /* Experience na mobile: jedna kolumna, data wędruje na dół (firma/rola → opis → data) */
+    .exp-row { grid-template-columns: 1fr; padding: var(--space-24) 0; }
+    .exp-info  { order: 1; }
+    .exp-desc  { order: 2; grid-column: auto; margin-top: var(--space-16); }
+    .exp-years { order: 3; text-align: right; margin-top: var(--space-24); }   /* rozmiar 28px z t-display-40 (mobile) */
+  }
+</style>

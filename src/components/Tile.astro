@@ -1,0 +1,39 @@
+---
+// Pojedynczy kafel pracy. Dane przychodzą z src/data/work.js.
+// Trzy warianty: link wewnętrzny (<a href>), zewnętrzny (<a target=_blank>), nieklikalny (<div>).
+const { item } = Astro.props;
+const { title, desc, role, year, href, external, badge, wide, media } = item;
+
+// styl pudełka .tile-media: tło zdjęciowe LUB kolor + opcjonalne --ar / --overlay
+const mediaStyles = [];
+if (media.cover) mediaStyles.push(`background-image:url('/assets/${media.cover}')`);
+if (media.bgColor) mediaStyles.push(`background-color:${media.bgColor}`);
+if (media.ar) mediaStyles.push(`--ar: ${media.ar}`);
+if (media.overlay != null) mediaStyles.push(`--overlay: ${media.overlay}`);
+const mediaStyle = mediaStyles.join('; ');
+
+// styl obiektu .shot: szerokość per kafel
+const shotStyle = media.shotW ? `--shot-w: ${media.shotW}` : undefined;
+
+const tileClass = wide ? 'tile tile-wide' : 'tile';
+const Tag = href ? 'a' : 'div';
+const linkAttrs = href
+  ? external
+    ? { href, target: '_blank', rel: 'noopener' }
+    : { href }
+  : {};
+---
+
+<Tag class={tileClass} data-badge={badge} {...linkAttrs}>
+  <div class="tile-media" style={mediaStyle}>
+    <img class="shot" style={shotStyle} src={`/assets/${media.shot}`} alt={title} />
+  </div>
+  <div class="caption t-body-20">
+    <div class="cap-main">
+      <span class="cap-title">{title}</span>
+      <span class="cap-desc">{desc}</span>
+      <span class="cap-role muted">{role}</span>
+    </div>
+    <span class="cap-year">({year})</span>
+  </div>
+</Tag>
