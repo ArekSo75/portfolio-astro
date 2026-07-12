@@ -7,9 +7,14 @@ import MobileMenu from '../components/MobileMenu.astro';
 import '../styles/global.css';
 
 const {
-  title = 'Arek Sobczyk – UX/UI Designer',
-  description = 'Senior UX/UI Designer with 18+ years of experience creating websites, mobile apps, and digital products used by millions.',
+  title = 'Arek Sobczyk, AI-native Product Designer',
+  description = 'AI-native Product Designer with 20+ years of experience. I design directly in code and deliver working, clickable products instead of mockups.',
+  image = '/assets/site/ArekSobczyk.png',
 } = Astro.props;
+
+// Absolutne URL-e pod Open Graph (LinkedIn/Facebook wymagają pełnego adresu).
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
 ---
 
 <!DOCTYPE html>
@@ -19,6 +24,25 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph (LinkedIn, Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Arek Sobczyk" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Arek Sobczyk – AI-native Product Designer" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
     <!-- favicon: czarny monogram na jasnym tabie, biały na ciemnym -->
     <link rel="icon" type="image/svg+xml" href="/favicon-light.svg" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" media="(prefers-color-scheme: dark)" />

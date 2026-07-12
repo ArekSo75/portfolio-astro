@@ -17,9 +17,9 @@ const experience = [
 ];
 
 const skills = [
-  'UI design', 'UX design', 'product design', 'prototyping', 'wireframes',
-  'design system', 'interactions', 'art directing', 'research', 'no-code',
-  'framer', 'AI-assisted design',
+  'designing in code', 'AI-native process', 'working prototypes',
+  'UI design', 'UX design', 'product design',
+  'design system', 'interactions', 'art directing', 'research',
 ];
 
 const industries = [
@@ -42,8 +42,8 @@ const courses = [
 ---
 
 <Layout
-  title="About – Arek Sobczyk"
-  description="Senior UX/UI Designer with 18+ years of experience. 13 years at K2 Internet, now designing e-commerce and custom software at Move Closer."
+  title="About – Arek Sobczyk, AI-native Product Designer"
+  description="20+ years of design, 13 at K2 Internet, now Move Closer. Since 2026 I design directly in code with AI and deliver working products, not static screens."
 >
   <!-- TOP ZONE: hero ~85vh, identyczny układ jak HP -->
   <div class="topzone">
@@ -54,7 +54,7 @@ const courses = [
         </div>
       </div>
       <div class="hero-text">
-        <h1>I’m a UX/UI designer turning complex challenges into simple, human-centered digital products.</h1>
+        <h1>I’m a product designer<br />with 20+ years of craft<br />and a psychology degree, now designing in code.</h1>
         <div class="hero-actions">
           <a href="mailto:arek.so@icloud.com" class="send">Send me a message</a>
           <a href="#about" class="send">Learn more about me</a>
@@ -76,11 +76,12 @@ const courses = [
     <p class="statement reveal t-body-20">I spent 13 years at the digital agency K2 Internet, working with brands such as Google, Coca-Cola, IKEA, PLAY, PKO Bank Polski, Pekao SA., and more.</p>
     <p class="statement reveal t-body-20">Later, in a startup, I had the chance to work directly with the CEO and experience the fast-paced culture of building a product close to the business.</p>
     <p class="statement reveal t-body-20">Currently, as a Senior UX/UI Designer at Move Closer, I design e‑commerce solutions and custom software, working closely with clients and developers.</p>
+    <p class="statement reveal t-body-20">In 2026 I changed the way I work: I design directly in code with AI. This site is the first result, rebuilt from Framer into my own codebase in three days. A working product says more than any mockup.</p>
   </Section>
 
   <!-- EXPERIENCE -->
   <Section label="Experience">
-      <h2 class="sec-title reveal t-display-55">Versatile experience focused on quality.</h2>
+      <h2 class="sec-title reveal t-display-55">Two decades of design, from agency to&nbsp;product.</h2>
       <ul class="exp-list">
         {experience.map((e) => (
           <li class="exp-row reveal">
@@ -97,13 +98,13 @@ const courses = [
 
   <!-- SELECTED CLIENTS -->
   <Section label="Selected clients">
-      <h2 class="sec-title reveal t-display-55">I had the pleasure of collaborating with many leading brands.</h2>
+      <h2 class="sec-title reveal t-display-55">Brands I’ve designed for.</h2>
       <img class="clients reveal" src="/assets/site/about/brands.webp" alt="Selected clients: Coca-Cola, Google, IKEA, Nokia, Nationale-Nederlanden, Toyota Financial Services, PKO Bank Polski, Bank Pekao, PLAY, Centrum Nauki Kopernik, Orlen, Shell, Ania Kruk, Leroy Merlin, MultiSport, Ministerstwo Zdrowia" />
   </Section>
 
   <!-- SKILLS -->
   <Section label="Skills">
-      <h2 class="sec-title reveal t-display-55">Designing with purpose, from idea to launch.</h2>
+      <h2 class="sec-title reveal t-display-55">From idea to a working product.</h2>
       <ul class="tags tags-lg reveal">
         {skills.map((s) => <li class="t-display-40">{s}</li>)}
       </ul>
@@ -111,7 +112,7 @@ const courses = [
 
   <!-- INDUSTRIES -->
   <Section label="Industries">
-      <h2 class="sec-title reveal t-display-55">Years in agencies exposed me to diverse industries.</h2>
+      <h2 class="sec-title reveal t-display-55">Agency years, many industries.</h2>
       <ul class="tags reveal">
         {industries.map((s) => <li class="t-body-20">{s}</li>)}
       </ul>
