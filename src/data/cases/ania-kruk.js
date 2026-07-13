@@ -47,13 +47,14 @@ export const aniaKruk = {
       figLg: true,
       band: true,
       text: [
-        'Ania Kruk, a well-known Polish jewelry brand enjoying rapid sales growth, faced significant technological and usability challenges. Its outdated e‑commerce platform hindered further growth, generated high maintenance costs, and struggled to meet rising customer expectations.',
-        'The project\'s goal was a comprehensive redesign of the online store to create a modern, intuitive, and flexible shopping environment that would support the brand\'s continued expansion.',
+        'Ania Kruk, a well-known Polish jewelry brand enjoying rapid sales growth, faced significant technological and usability challenges. Its outdated e-commerce platform hindered further growth, generated high maintenance costs, and struggled to meet rising customer expectations.',
+        'The project\'s goal was a complete redesign of the online store: a better shopping experience, easier content management, and a look that matches the brand.',
       ],
       facts: [
         ['My role', 'UX Design, UI Design'],
         ['Client', 'Ania Kruk'],
         ['Agency', 'Move Closer'],
+        ['Team', 'Wojtek Wawrzyniak, UX Design'],
         ['Date', '2023'],
       ],
     },
@@ -62,15 +63,15 @@ export const aniaKruk = {
       blocks: [
         {
           head: 'Key Challenges',
-          text: 'Despite its sales success, Ania Kruk\'s existing e-commerce platform faced fundamental challenges that limited its further growth and potential. Key problems included technological limitations of the outdated platform (making content management and updates difficult), a lack of user experience (UX) optimization (failing to support sales and brand image potential), and an outdated design that didn\'t reflect Ania Kruk\'s image as a modern, trend-aware brand.',
+          text: 'Ania Kruk was selling well, but the platform was holding the brand back. The outdated technology made content management and updates difficult. The user experience didn\'t support the sales potential. And the design no longer matched the image of a modern, trend-aware jewelry brand.',
         },
         {
           head: 'Discovery',
-          text: 'In the discovery phase, the key was to understand the project\'s foundations. I started with a UX audit of the existing site, which revealed key usability problems. Next, in-depth client interviews (Discovery Workshops) helped define business priorities and expectations for the new platform. In parallel, competitor analysis (Desk Research) provided valuable insights into best practices and solutions in the e-commerce sector, particularly for jewelry and fashion. This collected information allowed me to create detailed user stories, which became the foundation for designing solutions that address real user needs and use cases.',
+          text: 'We started with a UX audit of the existing site, which revealed the key usability problems. In-depth interviews with the Ania Kruk team during discovery workshops helped define business priorities and expectations for the new platform. In parallel, we analyzed competitors in e-commerce, particularly jewelry and fashion. All of this became a set of detailed user stories: the foundation for solutions that address real user needs.',
         },
         {
           head: 'Design',
-          text: 'I began the design process with low-fidelity wireframes, mapping out the site structure, key content, and core functionalities. Next, I created high-fidelity wireframes for the main views (homepage, product listing, product page, and search), accurately reflecting the final look, feel, and interactions. Following their approval, I designed the complete user interface for the entire site. I presented work progress during weekly online consultations with the client.',
+          text: 'We began with low-fidelity wireframes, mapping the site structure, key content, and core functionalities. Then I created high-fidelity wireframes for the main views: homepage, product listing, product page, and search. After their approval, I designed the complete user interface for the entire site, presenting progress at weekly online consultations with the client.',
         },
       ],
       figures: ['03_c.webp'],
@@ -78,22 +79,22 @@ export const aniaKruk = {
     {
       label: 'Wireframes',
       text: [
-        'Creating high-fidelity wireframes was an important stage that allowed us to visualize the layout in detail and present key functionalities and sales-driving mechanisms. These mockups intentionally did not yet include full branding. This approach enabled us to precisely discuss crucial functional and structural aspects with the client, avoiding the subjective opinions and strong emotions that often arise when presenting initial versions of the final visual design.',
+        'High-fidelity wireframes let us discuss layout, key functionalities, and sales mechanisms in detail. Intentionally, they didn\'t include full branding yet. This kept the conversation focused on function and structure, avoiding the subjective opinions and strong emotions that early visual designs tend to trigger.',
       ],
       figures: ['02_Wireframes.webp'],
     },
     {
       label: 'Home Page',
       text: [
-        'The homepage design played a key role in defining a consistent visual style for the entire Ania Kruk service. While working on this view, I established the foundations of the design system (typography, color palette, and grids), giving the brand a unique and recognizable identity.',
-        'I based the homepage structure on a flexible modular system. These modules were designed to enable the client to independently create and modify various layouts, fully tailored to their current communication or marketing needs, without requiring developer support.',
+        'The homepage defined the visual style for the entire site. Working on this view, I established the foundations of the design system: typography, color palette, and grids.',
+        'I based its structure on a flexible modular system, designed so the client can build and modify layouts for current marketing needs on their own.',
       ],
       figures: ['03_a.webp', '03_b.webp'],
     },
     {
       label: 'Shop the look',
       text: [
-        'This feature excels at supporting both brand image and sales goals. Clicking interactive hotspots on the photo allows users to instantly identify products and add them to their cart. The dedicated "Add Entire Look to Cart" CTA drives cross-selling and boosts conversion rates. For maximum implementation flexibility and versatility, I designed this module in three distinct versions, including a slider format.',
+        'Clicking hotspots on a photo identifies the products and adds them to the cart. A dedicated "Add entire look to cart" CTA supports cross-selling. I designed the module in three versions, including a slider, so it fits different page contexts.',
       ],
       figures: [
         '04_a_1.webp',
@@ -105,43 +106,50 @@ export const aniaKruk = {
     {
       label: 'Product Listing Page',
       text: [
-        'Intuitive category navigation and advanced filtering are the absolute foundation of any effective Product Listing Page (PLP). I went a step further. My focus was on delivering full functionality and an optimal user experience, especially for mobile devices (the primary sales channel today).',
-        'To cater to mobile users, I designed a list view switcher allowing a choice between a grid view (two products per row for quick scanning) and a single product view. The latter significantly enhances interaction, enabling users to preview additional photos and add items to their cart or wishlist directly from the list, without opening the Product Detail Page (PDP). This streamlines the decision-making process and ensures a more intuitive, seamless shopping experience.',
+        'Category navigation and advanced filtering are the foundation of any product listing. My focus was mobile, the primary sales channel.',
+        'I designed a view switcher: a grid with two products per row for quick scanning, or a single-product view. The single view lets users browse additional photos and add items to the cart or wishlist directly from the list, without opening the product page. Fewer steps, faster decisions.',
       ],
       figures: ['05_a.webp', '05_b.webp'],
     },
     {
       label: 'Product Detail Page',
       text: [
-        'Deceptively simple, the Product Detail Page (PDP) conceals a wealth of advanced features and extensive, yet neatly tucked-away, informational sections. Key features include: size selection with a comprehensive guide, back-in-stock alerts, an in-store product locator (with an interactive map), exclusive club member pricing, and current promotional details.',
-        'My design ensures all crucial information is accessible on a single page, minimizing unnecessary navigation. Expandable accordions and slide-out panels (drawers) maintain a clean, modern aesthetic while keeping users firmly in the product context.',
+        'The product page looks simple but carries a lot: size selection with a guide, back-in-stock alerts, an in-store product locator with a map, club member pricing, and current promotions.',
+        'All crucial information sits on a single page. Expandable accordions and slide-out drawers keep the layout clean and the user in the product context.',
       ],
       figures: ['06_a.webp', '06_b.webp', '06_c.webp'],
     },
     {
       label: 'Cart & Checkout',
       text: [
-        'I thoroughly redesigned the checkout process to make it as simple, fast, and intuitive as possible. Work in this area directly impacts conversion rates and helps build customer loyalty.',
-        'Additionally, I enhanced the gifting features, allowing items to be shipped to a different address with an e-receipt for the buyer, an option to hide the price on the tag, and a personalized gift note. Other key improvements I implemented include the ability to edit product sizes directly in the cart, features encouraging account creation and club membership, and intuitive management of discount codes and gift cards.',
-        'I also focused heavily on improvements for returning customers. Automated saving of addresses, preferred delivery methods, and payment details, combined with easy data management in the customer account panel, significantly speeds up and simplifies their future purchases.',
+        'I redesigned the checkout from scratch. This is the part of the store where UX work translates most directly into conversion.',
+        'I also designed extended gifting features: shipping to a different address with an e-receipt for the buyer, hiding the price on the gift tag, and a personalized note. Other improvements include editing product sizes directly in the cart, prompts for account creation and club membership, and simple handling of discount codes and gift cards.',
+        'Returning customers get saved addresses, preferred delivery methods, and payment details, with easy data management in the account panel. Every next purchase is faster.',
       ],
       figures: ['08_a.webp', '08_b.webp', '08_c.webp'],
     },
     {
       label: 'Search',
       text: [
-        'The search was also thoroughly redesigned. I added a popular products section, popular searches, intuitive suggestions, and a division by content type.',
+        'The search got a full redesign: popular products, popular searches, intuitive suggestions, and results divided by content type.',
       ],
       figures: ['09.webp'],
     },
     {
       label: 'Landing Pages',
-      last: true,
       text: [
-        'Landing pages, given their dynamic nature and diverse objectives, require particular flexibility. Therefore, continuing the modular approach from the homepage, I designed a dedicated set of a dozen or so additional modules specifically for them.',
-        'Combining these new elements with modules shared with the homepage creates a versatile system. This gives the client the freedom to independently build and modify landing pages of any type (for sales, brand-building, or purely informational purposes) by intuitively assembling selected modules, without needing developer involvement.',
+        'Landing pages need flexibility, so I extended the modular approach with a dedicated set of additional modules built specifically for them.',
+        'Combined with the homepage modules, this gives the client a system to build any type of landing page (sales, brand, informational) by assembling modules, without developer involvement.',
       ],
       figures: ['07_a.webp', '07_b.webp', '07_c.webp', '07_d.webp', '07_e.webp', '07_f.webp'],
+    },
+    {
+      label: 'Handoff',
+      last: true,
+      text: [
+        'My work ended with a complete design handoff: hundreds of screens covering the entire store, a design system, and a modular library for building landing pages without a developer.',
+        'Ania Kruk was designed the classic way: wireframes, Figma, handoff. Today I work differently, designing directly in code with AI. Same craft, but the deliverable is a working, clickable prototype instead of static mockups.',
+      ],
     },
   ],
 };
