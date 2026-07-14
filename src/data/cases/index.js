@@ -3,7 +3,9 @@
 //   2) zaimportuj go tutaj i dopisz do tablicy cases
 // Szablon src/pages/case-study/[slug].astro generuje stronę z każdego wpisu.
 import { aniaKruk } from './ania-kruk.js';
+import { k2Bank } from './k2-bank.js';
 
 export const cases = [
   aniaKruk,
+  k2Bank,
 ];

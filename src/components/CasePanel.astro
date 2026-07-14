@@ -1,0 +1,33 @@
+---
+// Panel case study: grupa obrazków na kolorowym tle (bg).
+// Tło pełnej szerokości; obrazki węższe (width), wyśrodkowane, 80px między nimi;
+// 200px od góry i dołu do krawędzi tła. Poprzedza go zwykły <img> (np. v04) —
+// tło styka się z nim na 0px (brak marginesu).
+const { bg, width, images, base, alt } = Astro.props;
+---
+<div class="case-panel" style={bg ? `background:${bg}` : undefined}>
+  {images.map((img) => (
+    <img style={width ? `width:${width}` : undefined} src={`${base}/case/${img}`} alt={alt} />
+  ))}
+</div>
+
+<style>
+  .case-panel {
+    width: 100%;
+    padding: var(--space-200) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-80);
+    border-radius: var(--fig-radius);
+  }
+  .case-panel img {
+    width: 80%;
+    height: auto;
+    display: block;
+    border-radius: var(--fig-radius);
+  }
+  @media (max-width: 800px) {
+    .case-panel { padding: var(--space-96) 0; gap: var(--space-32); }
+  }
+</style>

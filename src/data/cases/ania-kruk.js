@@ -18,11 +18,18 @@
 //     text[]     — akapity (szare); pomiń gdy sekcja ma blocks
 //     blocks[]   — podbloki z czarnym śródtytułem: { head, text } (np. Project overview)
 //     facts[]    — blok faktów [etykieta, wartość] (tylko Introduction)
+//     team[]     — blok "Team:" (etykieta w osobnej linii, nazwiska pod spodem). Introduction.
+//     video      — ID filmu YouTube (np. "kPh6M4VOw6g"). Embed 16:9 pełnej szerokości w slocie fig.
 //     figLg      — duży odstęp tekst→figura (200/96) zamiast 48 (Introduction)
 //     band       — figura = pełnoszerokościowy składak (tło cover.webp + apla + obiekt ui.webp)
 //     last       — ostatnia sekcja (bez dolnego odstępu 200)
 //     figures[]  — obrazki pod tekstem (pełna szerokość). Plik z /assets/work/<slug>/case/.
 //                  Wpis = "nazwa.webp" (16px odstęp) lub { src:"nazwa.webp", join:true } (sklejony 0px).
+//                  { src:"nazwa.webp", width:"80%", widthMobile:"95%" } = węższy obrazek, wyśrodkowany
+//                  (widthMobile opcjonalne — inna szerokość na telefonie).
+//                  { src:"nazwa.webp", bleed:true } = full-bleed: cała szerokość okna (poza marginesy, bez rogów).
+//                  { panel:"#EFF0ED", width:"80%", images:[...] } = grupa obrazków na kolorowym tle
+//                  (200px góra/dół, 80px między, wyśrodkowane). Tło styka się z figurą nad nim na 0px.
 
 export const aniaKruk = {
   slug: 'ania-kruk',

@@ -10,6 +10,7 @@
 // (slot "fig", pełna szerokość). Obrazki: 16px odstęp; { join:true } = sklejone (0px, klasa fig-join).
 import Layout from '../../layouts/Layout.astro';
 import Section from '../../components/Section.astro';
+import CasePanel from '../../components/CasePanel.astro';
 import { cases } from '../../data/cases/index.js';
 
 export function getStaticPaths() {
@@ -37,7 +38,7 @@ const titleHtml = data.hero.title
       </div>
 
       <div class="case-meta">
-        <p class="case-intro t-display-40">{data.hero.intro}</p>
+        <p class={`case-intro t-display-40${data.hero.introNoWrap ? ' case-intro--nowrap' : ''}`}>{data.hero.intro}</p>
         <span class="case-role t-body-20">{data.hero.role}</span>
         <span class="case-year t-body-20">({data.hero.year})</span>
       </div>
@@ -66,6 +67,25 @@ const titleHtml = data.hero.title
         </div>
       )}
 
+      {s.team && (
+        <div class="case-team t-body-20">
+          <p class="muted">Team:</p>
+          {s.team.map((m) => <p>{m}</p>)}
+        </div>
+      )}
+
+      {s.video && (
+        <div slot="fig" class="case-video">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${s.video}`}
+            title={`${data.title} video`}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+      )}
+
       {s.band && (
         <div slot="fig" class="case-band" style={`background-image: url('${base}/cover.webp')`}>
           <img class="case-band-shot" src={`${base}/ui.webp`} alt={`${data.title} UI`} />
@@ -73,10 +93,23 @@ const titleHtml = data.hero.title
       )}
 
       {s.figures && s.figures.map((f) => {
+        // Jeden return na iterację (Fragment ze slot="fig") — inaczej kompilator slotów Astro się wywala.
+        // W środku wybór: panel (grupa obrazków na tle) albo pojedynczy obrazek.
+        const isPanel = typeof f === 'object' && f.images;
         const src = typeof f === 'string' ? f : f.src;
         const join = typeof f === 'object' && f.join;
+        const width = typeof f === 'object' && f.width;
+        const widthMobile = typeof f === 'object' && f.widthMobile;
+        const bleed = typeof f === 'object' && f.bleed;
+        // width → zmienna CSS (nie inline szerokość), żeby dało się nadpisać na mobile.
+        const imgCls = [join && 'fig-join', width && 'fig-w', bleed && 'fig-bleed'].filter(Boolean).join(' ') || undefined;
+        const imgStyle = width ? `--fw:${width}${widthMobile ? `;--fw-m:${widthMobile}` : ''}` : undefined;
         return (
-          <img slot="fig" class={join ? 'fig-join' : undefined} src={`${base}/case/${src}`} alt={`${data.title} – ${s.label}`} />
+          <Fragment slot="fig">
+            {isPanel
+              ? <CasePanel bg={f.panel} width={f.width} images={f.images} base={base} alt={`${data.title} – ${s.label}`} />
+              : <img class={imgCls} style={imgStyle} src={`${base}/case/${src}`} alt={`${data.title} – ${s.label}`} />}
+          </Fragment>
         );
       })}
     </Section>
@@ -112,6 +145,10 @@ const titleHtml = data.hero.title
   .case-intro {                  /* typografia: t-display-40 */
     max-width: 620px;            /* zmierzone: "...for" (603px) wchodzi w 1. wiersz, "a" schodzi niżej (633px) */
   }
+  .case-intro--nowrap {          /* krótszy intro: jedna linia na desktopie (bez limitu 620) */
+    max-width: none;
+    white-space: nowrap;
+  }
   .case-role,
   .case-year {                   /* typografia: t-body-20 */
     white-space: nowrap;
@@ -123,16 +160,36 @@ const titleHtml = data.hero.title
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 6px;
+    border-radius: var(--fig-radius);
   }
 
   /* treść Introduction: akapity (szare) + blok faktów (etykieta szara, wartość czarna) */
   .case-text + .case-text { margin-top: var(--space-24); }   /* odstęp między akapitami */
   .case-facts { margin-top: var(--space-48); }                /* odstęp akapity → fakty */
+  /* Team: etykieta „Team:" (szara) w osobnej linii, pod nią nazwiska (czarne, stackowane).
+     Przerwa fakty → Team jak w załączniku. */
+  .case-team { margin-top: var(--space-40); }
 
   /* podblok (Project overview): czarny śródtytuł + szary akapit; odstęp między podblokami */
   .case-block + .case-block { margin-top: var(--space-48); }
   .case-subhead { color: var(--black); margin-bottom: var(--space-16); }   /* czarny, kontrast do szarej treści */
+
+  /* WIDEO (YouTube embed, pełna szerokość, 16:9) w slocie fig */
+  .case-video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--fig-radius);
+    overflow: hidden;
+  }
+  .case-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
 
   /* FULL-WIDTH BAND (figura Introduction): tło (cover, podciągnięte ~ -50 z Framera) + apla 0.6 + obiekt 80% wyśrodkowany.
      Obrazek tła wchodzi inline (per case) na .case-band; tu pozycja/skala/apla.
@@ -141,7 +198,7 @@ const titleHtml = data.hero.title
     position: relative;
     width: 100%;
     aspect-ratio: 1216 / 605;          /* obraz 1216×655 podciągnięty o ~50 = widoczne 605 */
-    border-radius: 6px;
+    border-radius: var(--fig-radius);
     overflow: hidden;
     background-position: center 65%;    /* 65% ≈ podciągnięcie top -50 */
     background-size: cover;
@@ -176,5 +233,6 @@ const titleHtml = data.hero.title
     .case-role,
     .case-year { display: none; }
     .case-intro { max-width: none; }   /* rozmiar 28px z t-display-40 (mobile) */
+    .case-intro--nowrap { white-space: normal; }   /* mobile: pozwól się zawijać (za wąsko na 1 linię) */
   }
 </style>

@@ -31,6 +31,7 @@ h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
   --max:   1440px;
   --pad:   var(--space-32);   /* margines boczny strony (mobile 16px) */
   --nav-h: 76px;              /* wysokość sticky nav (do wzoru wysokości strefy hero) */
+  --fig-radius: 6px;          /* zaokrąglenie obrazków case study (mobile mniejsze, patrz @media). HP ma własne */
 
   /* miękki, trójwarstwowy cień unoszącego się screenu (zmierzony) */
   --shot-shadow:
@@ -287,8 +288,13 @@ body.menu-open .nav { z-index: 300; }
    Złożone figury (np. .case-band) stylowane osobno (nie łapie ich .section-fig > img). */
 .section-fig { grid-column: 1 / -1; margin-top: var(--space-48); }
 .section-fig--lg { margin-top: var(--space-200); }   /* duży odstęp tekst→figura (Introduction) */
-.section-fig > img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.section-fig > img { display: block; width: 100%; height: auto; border-radius: var(--fig-radius); }
 .section-fig > img + img { margin-top: var(--space-16); }
+/* Węższy obrazek: szerokość z --fw (desktop), --fw-m nadpisuje na mobile (fallback = --fw). Wyśrodkowany. */
+.section-fig > img.fig-w { width: var(--fw); margin-inline: auto; }
+/* Full-bleed: obrazek na całą szerokość okna (poza marginesy strony). .wrap jest wyśrodkowany,
+   więc left:50% + margin-left:-50vw wypycha do krawędzi. Bez zaokrągleń (dotyka brzegów). */
+.section-fig > img.fig-bleed { width: 100vw; max-width: 100vw; position: relative; left: 50%; margin-left: -50vw; border-radius: 0; }
 /* obrazek sklejony z poprzednim (0px). Konwencja nazw: nr_litera_numer (np. 04_a_1/2/3) = jeden ciąg bez przerwy */
 .section-fig > img.fig-join { margin-top: 0; }
 /* sklejone obrazki = jeden blok: zewnętrzne rogi zaokrąglone, wewnętrzne (na styku) proste */
@@ -456,18 +462,21 @@ body.menu-open .nav { z-index: 300; }
 
 /* ===== Responsive ===== */
 @media (max-width: 800px) {
+  :root { --fig-radius: 4px; }   /* mobile: mniejsze zaokrąglenie obrazków CS (przy małym obrazku 6px wygląda za duże) */
   /* style tekstowe — rozmiary mobilne (t-body-20, t-note-16, t-eyebrow bez zmian) */
   .t-display-55 { font-size: 36px; line-height: 40px; }
   .t-display-40 { font-size: 28px; line-height: 32px; }
 
   /* sekcja tekstowa: jedna kolumna, etykieta nad treścią */
   .section { grid-template-columns: 1fr; gap: var(--space-16); padding: 20px 0 var(--space-96); }
-  .section--last { gap: var(--space-80); padding-bottom: 0; }   /* np. Education: etykieta → tytuł 80px */
+  .section--last { padding-bottom: 0; }
+  .section--gap-lg { gap: var(--space-80); }   /* About/Education: etykieta → tytuł 80px (nie dotyczy case study) */
   .section-body { grid-column: 1; width: 100%; }
   .case-cover + .section { padding-top: var(--space-32); }     /* mobile: obrazek hero → ●Introduction = 32px (jak meta→obrazek) */
   .section-fig { margin-top: var(--space-32); }                /* mobile: tekst → obrazek 32px */
   .section-fig--lg { margin-top: var(--space-96); }            /* Introduction: większy odstęp na mobile */
   .section-fig > img + img { margin-top: var(--space-8); }     /* mobile: przerwa między obrazkami 8px */
+  .section-fig > img.fig-w { width: var(--fw-m, var(--fw)); }  /* mobile: --fw-m nadpisuje szerokość */
 
   .wrap { padding: 0 var(--space-16); }    /* węższe marginesy boczne na mobile */
   .caption { line-height: 24px; }          /* ciaśniejsza interlinia podpisów na mobile (wyjątek od t-body-20) */

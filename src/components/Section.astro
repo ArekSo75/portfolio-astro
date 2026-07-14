@@ -8,15 +8,17 @@
 //   last (false)— ostatnia sekcja: bez dolnego odstępu 200px (np. przed rzędem obrazków)
 //   reveal(true)— animacja pojawiania na scroll. false = elementy statyczne (np. case study Ani Kruk)
 //   figLg(false)— duży odstęp tekst→figura (200 desktop / 96 mobile) zamiast domyślnych 48 (np. Introduction)
+//   gapLg(false)— mobile: duży odstęp etykieta→treść (80px) zamiast domyślnych 16 (About: Education)
 // Treść sekcji wchodzi przez <slot/> (kolory/typografię nadaje treść klasami t-* i .muted).
 //
 // Opcjonalny slot "fig" (case study): obrazek/-ki na PEŁNĄ szerokość pod tekstem sekcji.
 // Tekst sekcji opisuje obrazek poniżej. 48px pod tekstem; przerwa do następnej sekcji
 // = dolny padding sekcji (200). Wiele obrazków = 16px między nimi. Style: global.css (.section-fig).
-const { label, line = true, last = false, reveal = true, figLg = false } = Astro.props;
+const { label, line = true, last = false, reveal = true, figLg = false, gapLg = false } = Astro.props;
 const cls = ['section'];
 if (line) cls.push('section--line');
 if (last) cls.push('section--last');
+if (gapLg) cls.push('section--gap-lg');
 const hasFig = Astro.slots.has('fig');
 const rv = reveal ? ' reveal' : '';
 const figCls = ['section-fig'];

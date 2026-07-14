@@ -59,7 +59,7 @@ export const work = [
     desc: 'AI-powered assistant for personal banking',
     role: 'UI design, Art direction',
     year: '2016',
-    href: '/case-study-k2-bank',
+    href: '/case-study/k2-bank',
     badge: 'See Case',
     media: { bgColor: '#fb4a36', shot: 'work/k2-bank/ui.webp', shotW: '92%' },
   },
