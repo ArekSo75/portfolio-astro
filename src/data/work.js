@@ -78,7 +78,7 @@ export const work = [
     desc: 'an app for ordering professional shoe cleaning',
     role: 'UX/UI design',
     year: '2022',
-    href: '/case-study-woshwosh',
+    href: '/case-study/woshwosh',
     badge: 'See Case',
     media: { bgColor: '#EEF3F1', shot: 'work/woshwosh/cover.webp', shotW: '85%' },
   },

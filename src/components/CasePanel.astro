@@ -3,31 +3,45 @@
 // Tło pełnej szerokości; obrazki węższe (width), wyśrodkowane, 80px między nimi;
 // 200px od góry i dołu do krawędzi tła. Poprzedza go zwykły <img> (np. v04) —
 // tło styka się z nim na 0px (brak marginesu).
-const { bg, width, images, base, alt } = Astro.props;
+// width = szerokość obrazka na desktopie (domyślnie 80%); widthMobile = inna szerokość
+// na mobile (domyślnie = width). Przez zmienne CSS, żeby dało się nadpisać na telefonie.
+// padY = padding góra/dół apli (domyślnie 200 desktop / 96 mobile). padY:0 = tło tylko po bokach.
+// padYMobile = osobny padding góra/dół na mobile (gdy obrazek jest 100% i tło widać tylko górą/dołem).
+// gap = odstęp między obrazkami w panelu (domyślnie 80 desktop / 32 mobile). gap:0 = stykają się.
+const { bg, width, widthMobile, padY, padYMobile, gap, images, base, alt } = Astro.props;
+const w = width || '80%';
+const imgStyle = `--pw:${w};--pw-m:${widthMobile || w}`;
+const panelStyle = [
+  bg && `background:${bg}`,
+  padY != null && `--panel-py:${padY}`,
+  padYMobile != null && `--panel-py-m:${padYMobile}`,
+  gap != null && `--panel-gap:${gap}`,
+].filter(Boolean).join(';') || undefined;
 ---
-<div class="case-panel" style={bg ? `background:${bg}` : undefined}>
+<div class="case-panel" style={panelStyle}>
   {images.map((img) => (
-    <img style={width ? `width:${width}` : undefined} src={`${base}/case/${img}`} alt={alt} />
+    <img style={imgStyle} src={`${base}/case/${img}`} alt={alt} />
   ))}
 </div>
 
 <style>
   .case-panel {
     width: 100%;
-    padding: var(--space-200) 0;
+    padding: var(--panel-py, var(--space-200)) 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-80);
+    gap: var(--panel-gap, var(--space-80));
     border-radius: var(--fig-radius);
   }
   .case-panel img {
-    width: 80%;
+    width: var(--pw, 80%);
     height: auto;
     display: block;
     border-radius: var(--fig-radius);
   }
   @media (max-width: 800px) {
-    .case-panel { padding: var(--space-96) 0; gap: var(--space-32); }
+    .case-panel { padding: var(--panel-py-m, var(--panel-py, var(--space-96))) 0; gap: var(--panel-gap, var(--space-32)); }
+    .case-panel img { width: var(--pw-m, var(--pw, 80%)); }
   }
 </style>

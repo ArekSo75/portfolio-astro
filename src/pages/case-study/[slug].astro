@@ -24,6 +24,16 @@ const base = `/assets/work/${data.slug}`;
 const titleHtml = data.hero.title
   .map((p) => (p.mute ? `<span class="hl-mute">${p.text}</span>` : p.text))
   .join('<br>');
+
+// Hero cover na tle (coverBg): opcjonalnie węższy obrazek (coverWidth, domyślnie 80%)
+// i górny limit szerokości (coverMaxWidth).
+const coverStyle = data.hero.coverBg
+  ? [
+      `background:${data.hero.coverBg}`,
+      data.hero.coverWidth && `--cover-w:${data.hero.coverWidth}`,
+      data.hero.coverMaxWidth && `--cover-maxw:${data.hero.coverMaxWidth}`,
+    ].filter(Boolean).join(';')
+  : undefined;
 ---
 
 <Layout
@@ -38,15 +48,16 @@ const titleHtml = data.hero.title
       </div>
 
       <div class="case-meta">
-        <p class={`case-intro t-display-40${data.hero.introNoWrap ? ' case-intro--nowrap' : ''}`}>{data.hero.intro}</p>
+        <p class={`case-intro t-display-40${data.hero.introNoWrap ? ' case-intro--nowrap' : ''}`} style={data.hero.introWidth ? `--intro-w:${data.hero.introWidth}` : undefined}>{data.hero.intro}</p>
         <span class="case-role t-body-20">{data.hero.role}</span>
         <span class="case-year t-body-20">({data.hero.year})</span>
       </div>
     </section>
   </div><!-- /topzone -->
 
-  <!-- HERO IMAGE (pełna szerokość, pod hero). Widoczny od startu. -->
-  <div class="case-cover">
+  <!-- HERO IMAGE (pełna szerokość, pod hero). Widoczny od startu.
+       coverBg = obrazek wyśrodkowany na kolorowym tle (80% desktop / 100% mobile), jak panele. -->
+  <div class={`case-cover${data.hero.coverBg ? ' case-cover--panel' : ''}`} style={coverStyle}>
     <img src={`${base}/case/${data.hero.cover}`} alt={data.title} />
   </div>
 
@@ -59,6 +70,10 @@ const titleHtml = data.hero.title
           <h3 class="case-subhead t-body-20">{b.head}</h3>
           <p class="case-text muted t-body-20">{b.text}</p>
         </div>
+      ))}
+
+      {s.leads && s.leads.map((l) => (
+        <p class="case-text muted t-body-20"><span class="case-lead">{l.lead}.</span> {l.text}</p>
       ))}
 
       {s.facts && (
@@ -107,7 +122,7 @@ const titleHtml = data.hero.title
         return (
           <Fragment slot="fig">
             {isPanel
-              ? <CasePanel bg={f.panel} width={f.width} images={f.images} base={base} alt={`${data.title} – ${s.label}`} />
+              ? <CasePanel bg={f.panel} width={f.width} widthMobile={f.widthMobile} padY={f.padY} padYMobile={f.padYMobile} gap={f.gap} images={f.images} base={base} alt={`${data.title} – ${s.label}`} />
               : <img class={imgCls} style={imgStyle} src={`${base}/case/${src}`} alt={`${data.title} – ${s.label}`} />}
           </Fragment>
         );
@@ -143,7 +158,7 @@ const titleHtml = data.hero.title
     gap: var(--space-32);
   }
   .case-intro {                  /* typografia: t-display-40 */
-    max-width: 620px;            /* zmierzone: "...for" (603px) wchodzi w 1. wiersz, "a" schodzi niżej (633px) */
+    max-width: var(--intro-w, 620px);   /* 620 = domyślne (tuning Ania Kruk); hero.introWidth = override per-case */
   }
   .case-intro--nowrap {          /* krótszy intro: jedna linia na desktopie (bez limitu 620) */
     max-width: none;
@@ -162,6 +177,14 @@ const titleHtml = data.hero.title
     height: auto;
     border-radius: var(--fig-radius);
   }
+  /* wariant z tłem: obrazek wyśrodkowany na aplu, 80% desktop / 100% mobile.
+     padding góra/dół 0 = tło widać tylko po bokach (jak panele w tym case). */
+  .case-cover--panel {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+  .case-cover--panel img { width: var(--cover-w, 80%); max-width: var(--cover-maxw, none); }
 
   /* treść Introduction: akapity (szare) + blok faktów (etykieta szara, wartość czarna) */
   .case-text + .case-text { margin-top: var(--space-24); }   /* odstęp między akapitami */
@@ -173,6 +196,9 @@ const titleHtml = data.hero.title
   /* podblok (Project overview): czarny śródtytuł + szary akapit; odstęp między podblokami */
   .case-block + .case-block { margin-top: var(--space-48); }
   .case-subhead { color: var(--black); margin-bottom: var(--space-16); }   /* czarny, kontrast do szarej treści */
+
+  /* lead-in inline (Key Challenges): tytuł czarny w jednym ciągu z szarym opisem (paragraf .muted) */
+  .case-lead { color: var(--black); }
 
   /* WIDEO (YouTube embed, pełna szerokość, 16:9) w slocie fig */
   .case-video {
@@ -229,10 +255,12 @@ const titleHtml = data.hero.title
     .case-hero .hero-text h1 { font-size: 15.7vw; letter-spacing: -0.03em; }  /* najdłuższy wiersz ~344px na 390px (gutter 16) — prawie cała szerokość */
     /* gap meta→obrazek = gap obrazek→●Introduction = 32px */
     .case-cover { margin-top: var(--space-32); }
+    .case-cover--panel { padding: 0; }
+    .case-cover--panel img { width: 100%; }
     /* meta na mobile: tylko intro. Rola i rok ukryte — są w bloku faktów Introduction niżej (My role / Date) */
     .case-role,
     .case-year { display: none; }
-    .case-intro { max-width: none; }   /* rozmiar 28px z t-display-40 (mobile) */
+    .case-intro { max-width: none; padding-right: var(--space-24); }   /* rozmiar 28px z t-display-40 (mobile); 24px oddechu od prawej */
     .case-intro--nowrap { white-space: normal; }   /* mobile: pozwól się zawijać (za wąsko na 1 linię) */
   }
 </style>

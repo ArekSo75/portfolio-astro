@@ -4,8 +4,10 @@
 // Szablon src/pages/case-study/[slug].astro generuje stronę z każdego wpisu.
 import { aniaKruk } from './ania-kruk.js';
 import { k2Bank } from './k2-bank.js';
+import { woshwosh } from './woshwosh.js';
 
 export const cases = [
   aniaKruk,
   k2Bank,
+  woshwosh,
 ];

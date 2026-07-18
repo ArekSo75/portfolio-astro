@@ -7,8 +7,8 @@ Lekki, statyczny serwis portfolio na własnej domenie `areksobczyk.com` (darmowy
 
 ## Stan
 - ✅ Strona główna (`/`) i About (`/about`) gotowe
-- ✅ Case study = szablon sterowany danymi. Treść w `src/data/cases/<slug>.js`, układ w `src/pages/case-study/[slug].astro`. Ania Kruk gotowy (`/case-study/ania-kruk`).
-- ⬜ Pozostałe case studies (Apaczka, K2 Bank, woshwosh) = nowy plik treści każdy
+- ✅ Case study = szablon sterowany danymi. Treść w `src/data/cases/<slug>.js`, układ w `src/pages/case-study/[slug].astro`. Gotowe: Ania Kruk, K2 Bank, woshwosh.
+- ⬜ Pozostałe case studies (Apaczka) = nowy plik treści
 - ⬜ Blog
 - ⬜ Hosting + podpięcie domeny `areksobczyk.com`
 
