@@ -30,6 +30,16 @@
 //                  { src:"nazwa.webp", bleed:true } = full-bleed: cała szerokość okna (poza marginesy, bez rogów).
 //                  { panel:"#EFF0ED", width:"80%", images:[...] } = grupa obrazków na kolorowym tle
 //                  (200px góra/dół, 80px między, wyśrodkowane). Tło styka się z figurą nad nim na 0px.
+//                  { row:["a.webp","b.webp"], gap:"32px", width:"90%", bg:"#F2F2F2" } = obrazki OBOK
+//                  SIEBIE (równe kolumny; na mobile też zostają obok siebie, tylko ciaśniej).
+//                    gap        — odstęp w OBU osiach: między obrazkami oraz nad rzędem i pod nim (dom. 32px)
+//                    gapMobile  — odstęp między obrazkami na mobile (dom. 8px)
+//                    bg         — apla pod KAŻDYM obrazkiem osobno (nie pod całym rzędem), więc
+//                                 przerwa między nimi zostaje widoczna. Dobierz kolor do tła wypalonego
+//                                 w pliku, wtedy styk jest niewidoczny (Apaczka: #F2F2F2).
+//                    width      — szerokość obrazka na jego apli, wyśrodkowanego (dziedziczy się na mobile)
+//                    widthMobile— nadpisanie szerokości na mobile
+//                    join       — 0px do figury nad nim (jak przy pojedynczym obrazku)
 
 export const aniaKruk = {
   slug: 'ania-kruk',

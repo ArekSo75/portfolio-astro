@@ -210,6 +210,10 @@ body.menu-open .nav { z-index: 300; }
   line-height: 1.0;                        /* zmierzone: interlinia 1.0 */
   letter-spacing: -0.035em;                /* skaluje się z fontem (~ -2.4px @69px) */
 }
+/* fix błysku na wejściu: gdy JS działa (html.js), surowy headline jest niewidoczny do momentu
+   pocięcia na maski przez main.js (klasa .split); słowa są wtedy schowane własnym transformem */
+.js .hero-text h1:not(.split) { opacity: 0; }
+
 /* mask reveal headline: każde słowo w masce, wewnętrzny span wyjeżdża od dołu (jak rejouice) */
 .hero-text h1 .mask {
   display: inline-block;
@@ -299,7 +303,31 @@ body.menu-open .nav { z-index: 300; }
 .section-fig > img.fig-join { margin-top: 0; }
 /* sklejone obrazki = jeden blok: zewnętrzne rogi zaokrąglone, wewnętrzne (na styku) proste */
 .section-fig > img.fig-join { border-top-left-radius: 0; border-top-right-radius: 0; }            /* górne rogi sklejonego — proste */
-.section-fig > img:has(+ img.fig-join) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }  /* dolne rogi tego nad sklejonym — proste */
+.section-fig > img:has(+ .fig-join) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }  /* dolne rogi tego nad sklejonym — proste */
+
+/* RZĄD figur: obrazki OBOK SIEBIE (równe kolumny) zamiast jeden pod drugim.
+   --frow-gap (domyślnie 32px) rządzi odstępem w OBU osiach: między obrazkami w rzędzie
+   ORAZ nad rzędem i pod nim. Czyli rząd jest odseparowanym blokiem, nie częścią sklejonego ciągu.
+   Na mobile wraca do pionu, zachowując ten sam odstęp. */
+.section-fig > .fig-row { display: flex; gap: var(--frow-gap, var(--space-32)); margin-top: var(--frow-gap, var(--space-32)); }
+/* odstęp pod rzędem (wyższa specyficzność niż `img + img`, więc wygrywa z domyślnym 16px) */
+.section-fig > .fig-row + img { margin-top: var(--space-32); }
+.section-fig > .fig-row.fig-join { margin-top: 0; }
+/* Każdy obrazek siedzi we własnej komórce = równa kolumna. Apla (bg) jest NA KOMÓRCE, nie na całym
+   rzędzie, dzięki czemu przerwa między obrazkami zostaje widoczna (prześwituje strona).
+   Obrazek w komórce może być węższy (--frow-w) i jest wtedy wyśrodkowany na swojej apli. */
+.section-fig > .fig-row > .fig-cell {
+  flex: 1; min-width: 0;
+  display: flex; justify-content: center;
+  background: var(--frow-bg, transparent);
+  border-radius: var(--fig-radius);
+}
+.section-fig > .fig-row > .fig-cell > img { width: var(--frow-w, 100%); height: auto; display: block; border-radius: var(--fig-radius); }
+/* rząd wpięty w blok sklejony: styki góra/dół proste, jak przy pojedynczych obrazkach */
+.section-fig > .fig-row.fig-join > .fig-cell,
+.section-fig > .fig-row.fig-join > .fig-cell > img { border-top-left-radius: 0; border-top-right-radius: 0; }
+.section-fig > .fig-row:has(+ .fig-join) > .fig-cell,
+.section-fig > .fig-row:has(+ .fig-join) > .fig-cell > img { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 
 /* ===== Work grid ===== */
 /* scroll-margin: kotwica #work ląduje POD sticky headerem (wysokość nawigacji + luz), nie pod nim */
@@ -477,6 +505,13 @@ body.menu-open .nav { z-index: 300; }
   .section-fig--lg { margin-top: var(--space-96); }            /* Introduction: większy odstęp na mobile */
   .section-fig > img + img { margin-top: var(--space-8); }     /* mobile: przerwa między obrazkami 8px */
   .section-fig > img.fig-w { width: var(--fw-m, var(--fw)); }  /* mobile: --fw-m nadpisuje szerokość */
+  /* mobile: rząd ZOSTAJE rzędem (obrazki obok siebie, nie jeden pod drugim), tylko z ciaśniejszym
+     odstępem 8px — jak reszta odstępów między figurami na mobile. Nadpisanie: gapMobile.
+     8px działa w OBU osiach, tak jak 32px na desktopie: między obrazkami oraz nad rzędem i pod nim. */
+  .section-fig > .fig-row { gap: var(--frow-gap-m, var(--space-8)); margin-top: var(--frow-gap-m, var(--space-8)); }
+  .section-fig > .fig-row + img { margin-top: var(--space-8); }
+  /* mobile: zwężenie obrazka dziedziczy się z desktopu (--frow-w), chyba że case poda widthMobile */
+  .section-fig > .fig-row > .fig-cell > img { width: var(--frow-w-m, var(--frow-w, 100%)); }
 
   .wrap { padding: 0 var(--space-16); }    /* węższe marginesy boczne na mobile */
   .caption { line-height: 24px; }          /* ciaśniejsza interlinia podpisów na mobile (wyjątek od t-body-20) */

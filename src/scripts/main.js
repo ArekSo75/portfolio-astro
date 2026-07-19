@@ -160,6 +160,9 @@ if (headline) {
     if (i < tokens.length - 1 && !tokens[i + 1].br) headline.appendChild(document.createTextNode(' '));
   });
 
+  // maski zbudowane (słowa schowane własnym transformem) → można odsłonić h1 (fix błysku na wejściu)
+  headline.classList.add('split');
+
   if (reduceMotion) {
     wordEls.forEach((el) => { el.style.transform = 'none'; });
   } else {

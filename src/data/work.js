@@ -39,7 +39,7 @@ export const work = [
     desc: 'A technology platform for managing shipping processes',
     role: 'Product design',
     year: '2024',
-    href: '/case-study-apaczka',
+    href: '/case-study/apaczka',
     badge: 'See Case',
     wide: true,
     media: { cover: 'work/apaczka/cover.webp', shot: 'work/apaczka/ui.webp', shotW: '90%' },

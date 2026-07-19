@@ -22,6 +22,9 @@ const ogImage = new URL(image, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- klasa .js przed pierwszym malowaniem: CSS chowa headline tylko gdy animacje wystartują
+         (fix błysku surowego tekstu zanim main.js potnie go na maski; bez JS tekst normalnie widoczny) -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

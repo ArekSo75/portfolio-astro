@@ -5,9 +5,11 @@
 import { aniaKruk } from './ania-kruk.js';
 import { k2Bank } from './k2-bank.js';
 import { woshwosh } from './woshwosh.js';
+import { apaczka } from './apaczka.js';
 
 export const cases = [
   aniaKruk,
   k2Bank,
   woshwosh,
+  apaczka,
 ];

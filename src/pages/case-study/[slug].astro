@@ -63,7 +63,7 @@ const coverStyle = data.hero.coverBg
 
   {data.sections.map((s) => (
     <Section label={s.label} line={false} reveal={false} last={s.last} figLg={s.figLg}>
-      {s.text && s.text.map((t) => <p class="case-text muted t-body-20">{t}</p>)}
+      {s.text && s.text.map((t) => <p class="case-text muted t-body-20" set:html={t}></p>)}
 
       {s.blocks && s.blocks.map((b) => (
         <div class="case-block">
@@ -111,6 +111,7 @@ const coverStyle = data.hero.coverBg
         // Jeden return na iterację (Fragment ze slot="fig") — inaczej kompilator slotów Astro się wywala.
         // W środku wybór: panel (grupa obrazków na tle) albo pojedynczy obrazek.
         const isPanel = typeof f === 'object' && f.images;
+        const isRow = typeof f === 'object' && f.row;
         const src = typeof f === 'string' ? f : f.src;
         const join = typeof f === 'object' && f.join;
         const width = typeof f === 'object' && f.width;
@@ -119,10 +120,26 @@ const coverStyle = data.hero.coverBg
         // width → zmienna CSS (nie inline szerokość), żeby dało się nadpisać na mobile.
         const imgCls = [join && 'fig-join', width && 'fig-w', bleed && 'fig-bleed'].filter(Boolean).join(' ') || undefined;
         const imgStyle = width ? `--fw:${width}${widthMobile ? `;--fw-m:${widthMobile}` : ''}` : undefined;
+        // rząd: gap (obie osie) + opcjonalna szerokość całego rzędu (desktop; mobile wraca do 100%)
+        const rowBg = typeof f === 'object' && f.bg;
+        const rowCls = [`fig-row`, join && 'fig-join'].filter(Boolean).join(' ');
+        const rowStyle = [
+          f.gap && `--frow-gap:${f.gap}`,
+          f.gapMobile && `--frow-gap-m:${f.gapMobile}`,
+          width && `--frow-w:${width}`,
+          widthMobile && `--frow-w-m:${widthMobile}`,
+          rowBg && `--frow-bg:${rowBg}`,
+        ].filter(Boolean).join(';') || undefined;
         return (
           <Fragment slot="fig">
             {isPanel
               ? <CasePanel bg={f.panel} width={f.width} widthMobile={f.widthMobile} padY={f.padY} padYMobile={f.padYMobile} gap={f.gap} images={f.images} base={base} alt={`${data.title} – ${s.label}`} />
+              : isRow
+              ? <div class={rowCls} style={rowStyle}>
+                  {f.row.map((img) => (
+                    <div class="fig-cell"><img src={`${base}/case/${img}`} alt={`${data.title} – ${s.label}`} /></div>
+                  ))}
+                </div>
               : <img class={imgCls} style={imgStyle} src={`${base}/case/${src}`} alt={`${data.title} – ${s.label}`} />}
           </Fragment>
         );
@@ -199,6 +216,10 @@ const coverStyle = data.hero.coverBg
 
   /* lead-in inline (Key Challenges): tytuł czarny w jednym ciągu z szarym opisem (paragraf .muted) */
   .case-lead { color: var(--black); }
+
+  /* wyróżnienie w akapicie: <strong> w treści case'a = czarny zamiast bolda (waga bez zmian).
+     :global bo akapity idą przez set:html (dzieci nie dostają scope'a Astro) */
+  .case-text :global(strong) { color: var(--black); font-weight: inherit; }
 
   /* WIDEO (YouTube embed, pełna szerokość, 16:9) w slocie fig */
   .case-video {
