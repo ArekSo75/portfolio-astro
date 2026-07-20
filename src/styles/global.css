@@ -269,6 +269,9 @@ body.menu-open .nav { z-index: 300; }
 /* sekcje bez linii (case study) jadące po sobie: zdejmij górny padding 40, żeby przerwa = 200
    (sam dolny padding poprzedniej), nie 240. Pierwsza sekcja (po hero) zachowuje górny padding. */
 .section:not(.section--line) + .section:not(.section--line) { padding-top: 0; }
+/* ostatnia sekcja BEZ obrazka (sam tekst, np. Impact w Apaczce; klasa .section--text nadaje szablon):
+   przysunięta do ostatniego obrazka poprzedniej sekcji na 80px (zamiast pełnych 200 rytmu sekcji) */
+.section:not(.section--line):has(+ .section--text) { padding-bottom: var(--space-80); }
 /* śródtytuł w szynie: WERSALIKI (styl t-eyebrow w markupie) + kulka wielkości fontu */
 .section-label {
   grid-column: 1;
@@ -498,6 +501,8 @@ body.menu-open .nav { z-index: 300; }
   /* sekcja tekstowa: jedna kolumna, etykieta nad treścią */
   .section { grid-template-columns: 1fr; gap: var(--space-16); padding: 20px 0 var(--space-96); }
   .section--last { padding-bottom: 0; }
+  /* ostatnia sekcja bez obrazka: 32px do poprzedniego obrazka (rytm mobile) */
+  .section:not(.section--line):has(+ .section--text) { padding-bottom: var(--space-32); }
   .section--gap-lg { gap: var(--space-80); }   /* About/Education: etykieta → tytuł 80px (nie dotyczy case study) */
   .section-body { grid-column: 1; width: 100%; }
   .case-cover + .section { padding-top: var(--space-32); }     /* mobile: obrazek hero → ●Introduction = 32px (jak meta→obrazek) */

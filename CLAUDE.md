@@ -7,10 +7,9 @@ Lekki, statyczny serwis portfolio na własnej domenie `areksobczyk.com` (darmowy
 
 ## Stan
 - ✅ Strona główna (`/`) i About (`/about`) gotowe
-- ✅ Case study = szablon sterowany danymi. Treść w `src/data/cases/<slug>.js`, układ w `src/pages/case-study/[slug].astro`. Gotowe: Ania Kruk, K2 Bank, woshwosh.
-- ⬜ Pozostałe case studies (Apaczka) = nowy plik treści
+- ✅ Case study = szablon sterowany danymi. Treść w `src/data/cases/<slug>.js`, układ w `src/pages/case-study/[slug].astro`. Gotowe: Ania Kruk, K2 Bank, woshwosh, Apaczka (komplet).
+- ✅ Hosting + domena `areksobczyk.com` (Netlify, auto-deploy z push na `main`)
 - ⬜ Blog
-- ⬜ Hosting + podpięcie domeny `areksobczyk.com`
 
 ## Jak dodać case study
 1. Skopiuj `src/data/cases/ania-kruk.js` jako `src/data/cases/<slug>.js`, wypełnij treścią (komentarze w pliku tłumaczą każde pole).
@@ -18,6 +17,8 @@ Lekki, statyczny serwis portfolio na własnej domenie `areksobczyk.com` (darmowy
 3. Wrzuć obrazki do `public/assets/work/<slug>/case/` (+ `cover.webp`/`ui.webp` dla składaka i kafelka HP).
 4. W `src/data/work.js` ustaw `href: '/case-study/<slug>'` na kafelku.
 Strona generuje się sama z szablonu. Układ/CSS zmieniasz RAZ w `[slug].astro` = wchodzi do wszystkich case studies.
+
+Sekcja **„Next projects"** na dole case study robi się sama: szablon bierze z `work.js` kolejne 2 wpisy z wewnętrznym linkiem (rotacja po kole, Behance i kafle bez linku pominięte). Nowy case w `work.js` = wpina się do rotacji wszędzie, bez dopisywania czegokolwiek.
 
 ## Źródło prawdy
 - **`DESIGN.md`** (ten folder) : kompletny design system : kolory, typografia + tracking, grid, komponenty, motion, responsywność. **Buduj z tych wartości, NIE zgaduj.** Czytaj zanim ruszysz CSS.

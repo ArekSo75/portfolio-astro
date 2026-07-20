@@ -11,7 +11,9 @@
 import Layout from '../../layouts/Layout.astro';
 import Section from '../../components/Section.astro';
 import CasePanel from '../../components/CasePanel.astro';
+import Tile from '../../components/Tile.astro';
 import { cases } from '../../data/cases/index.js';
+import { work } from '../../data/work.js';
 
 export function getStaticPaths() {
   return cases.map((c) => ({ params: { slug: c.slug }, props: { data: c } }));
@@ -19,6 +21,27 @@ export function getStaticPaths() {
 
 const { data } = Astro.props;
 const base = `/assets/work/${data.slug}`;
+
+// NEXT PROJECTS: kolejne 2 case studies z siatki HP, po kole (kolejność jak w work.js).
+// Tylko wewnętrzne case'y (bez Behance i "Soon..."); nowy case w work.js wchodzi tu sam.
+// wide zdjęte: w siatce 2 kafelków Apaczka renderuje się jak zwykły kafel (nie na całą szerokość).
+// Obiekt kafla wide jest kadrowany pod szeroki box (90%), w wąskim gubi skalę → powiększony do 115%.
+// Różne wysokości jak na HP: lewy kafel kwadrat (1/1, wyższy), prawy prostokąt (domyślne 1/0.86, niższy).
+// Na mobile bez znaczenia (globalna reguła i tak robi wszystkie kwadratowe).
+const caseTiles = work.filter((w) => w.href && !w.external);
+const currentIdx = caseTiles.findIndex((w) => w.href === `/case-study/${data.slug}`);
+const nextTiles = [1, 2].map((n) => {
+  const t = caseTiles[(currentIdx + n) % caseTiles.length];
+  return {
+    ...t,
+    wide: false,
+    media: {
+      ...t.media,
+      ...(t.wide && { shotW: '115%' }),
+      ...(n === 1 && { ar: '1 / 1' }),
+    },
+  };
+});
 
 // Nagłówek hero: linie łamane <br>, fragmenty mute w <span class="hl-mute"> (jak oryginał).
 const titleHtml = data.hero.title
@@ -62,7 +85,7 @@ const coverStyle = data.hero.coverBg
   </div>
 
   {data.sections.map((s) => (
-    <Section label={s.label} line={false} reveal={false} last={s.last} figLg={s.figLg}>
+    <Section label={s.label} line={false} reveal={false} last={s.last} figLg={s.figLg} textOnly={s.last && !s.figures && !s.video && !s.band}>
       {s.text && s.text.map((t) => <p class="case-text muted t-body-20" set:html={t}></p>)}
 
       {s.blocks && s.blocks.map((b) => (
@@ -146,6 +169,14 @@ const coverStyle = data.hero.coverBg
       })}
     </Section>
   ))}
+
+  <!-- NEXT PROJECTS: tytuł dużym fontem (jak "Get in touch" w stopce) + 2 kafelki z work.js (rotacja po kole) -->
+  <section class="case-next">
+    <h2 class="t-display-55">Next projects</h2>
+    <div class="grid">
+      {nextTiles.map((item) => <Tile item={item} />)}
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -269,6 +300,17 @@ const coverStyle = data.hero.coverBg
     display: block;
   }
 
+  /* NEXT PROJECTS: odstęp od ostatniej sekcji = rytm sekcji (200);
+     dół jak HP (.work): 40 + padding-top stopki. Nagłówek/siatka/kafelki = style globalne. */
+  /* linia + 40 do etykiety = rytm sekcji z linią (.section--line w global) */
+  .case-next {
+    margin-top: var(--space-200);
+    padding: var(--space-40) 0 var(--space-40);
+    border-top: 1px solid var(--gray-300);
+  }
+  /* etykieta (.section-label z global: kulka + wersaliki) stoi NAD siatką, nie w szynie */
+  .case-next .grid { margin-top: var(--space-200); }
+
   @media (max-width: 800px) {
     /* hero dopasowany do wysokości ekranu (headline góra, meta dół); mniejszy vh niż desktop, żeby pierwszy obrazek wystawał */
     .case-top { min-height: calc(72vh - var(--nav-h)); }
@@ -283,5 +325,8 @@ const coverStyle = data.hero.coverBg
     .case-year { display: none; }
     .case-intro { max-width: none; padding-right: var(--space-24); }   /* rozmiar 28px z t-display-40 (mobile); 24px oddechu od prawej */
     .case-intro--nowrap { white-space: normal; }   /* mobile: pozwól się zawijać (za wąsko na 1 linię) */
+    /* Next projects: rytm sekcji mobile (96, jak dolny padding sekcji), etykieta → siatka jak tekst→figura */
+    .case-next { margin-top: var(--space-96); padding-top: 20px; }   /* jak sekcje na mobile: linia → etykieta 20px */
+    .case-next .grid { margin-top: var(--space-48); }
   }
 </style>

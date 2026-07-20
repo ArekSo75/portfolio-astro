@@ -14,11 +14,12 @@
 // Opcjonalny slot "fig" (case study): obrazek/-ki na PEŁNĄ szerokość pod tekstem sekcji.
 // Tekst sekcji opisuje obrazek poniżej. 48px pod tekstem; przerwa do następnej sekcji
 // = dolny padding sekcji (200). Wiele obrazków = 16px między nimi. Style: global.css (.section-fig).
-const { label, line = true, last = false, reveal = true, figLg = false, gapLg = false } = Astro.props;
+const { label, line = true, last = false, reveal = true, figLg = false, gapLg = false, textOnly = false } = Astro.props;
 const cls = ['section'];
 if (line) cls.push('section--line');
 if (last) cls.push('section--last');
 if (gapLg) cls.push('section--gap-lg');
+if (textOnly) cls.push('section--text');   // sam tekst, bez figury (steruje odstępem od poprzedniej sekcji)
 const hasFig = Astro.slots.has('fig');
 const rv = reveal ? ' reveal' : '';
 const figCls = ['section-fig'];
